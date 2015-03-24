@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
+  <Identity Name="cb90bad9-6e21-4c59-9c1a-bc3862cefa80" Publisher="CN=Sloth" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="903d749b-71eb-4a9f-9f17-ca0be3bf89f3" PhonePublisherId="3f9c3d6d-88da-403c-93ec-dd667977448b" />
+  <Properties>
+    <DisplayName>Asclepius</DisplayName>
+    <PublisherDisplayName>Sloth</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.1</OSMinVersion>
+    <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="AGHost.exe" EntryPoint="LoginPage.xaml">
+      <m3:VisualElements DisplayName="Asclepius" Square150x150Logo="Assets\SquareTile150x150.png" Square44x44Logo="Assets\Logo.png" Description="Asclepius" ForegroundText="light" BackgroundColor="#464646">
+        <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png" />
+        <m3:SplashScreen Image="Assets\SplashScreen.png" />
+      </m3:VisualElements>
+      <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="AgHost.BackgroundTask">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <DeviceCapability Name="location" />
+    <m2:DeviceCapability Name="humaninterfacedevice">
+      <m2:Device Id="vidpid:0421 0716">
+        <m2:Function Type="usage:ffaa 0001" />
+        <m2:Function Type="usage:ffee 0001" />
+        <m2:Function Type="usage:ffee 0002" />
+        <m2:Function Type="usage:ffee 0003" />
+        <m2:Function Type="usage:ffee 0004" />
+      </m2:Device>
+    </m2:DeviceCapability>
+  </Capabilities>
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>AgHostSvcs.dll</Path>
+        <ActivatableClass ActivatableClassId="AgHost.BackgroundTask" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+  </Extensions>
+</Package>

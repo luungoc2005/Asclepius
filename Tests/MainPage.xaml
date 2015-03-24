@@ -1,0 +1,56 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Asclepius.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="ASCLEPIUS" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
+            <TextBlock Text="home" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <Border Width="128" Height="128" BorderBrush="{StaticResource PhoneChromeBrush}" BorderThickness="2" Background="{StaticResource PhoneInactiveBrush}">
+                            <Image Width="128" Height="128" Source="{Binding Path=UserAvatar}" />
+                        </Border>
+                        <HyperlinkButton Content="change" Click="HyperlinkButton_Click" />
+                    </StackPanel>
+                    <StackPanel Margin="12,0,12,0">
+                        <TextBlock Text="{Binding Path=Username}" FontSize="30" />
+                        <TextBlock Text="{Binding Path=Description}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Weight: " />
+                            <TextBlock Text="{Binding Path=Weight}" />
+                            <TextBlock Text=" kg" />
+                            <TextBlock Text="Height: " Margin="12,0,0,0" />
+                            <TextBlock Text="{Binding Path=Height}" />
+                            <TextBlock Text=" cm" />                            
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>
