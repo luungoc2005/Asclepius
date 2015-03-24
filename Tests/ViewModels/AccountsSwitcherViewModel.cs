@@ -33,13 +33,28 @@ namespace Asclepius.ViewModels
 
         public AccountsSwitcherViewModel()
         {
+            isUpdating = true;
             listAccounts.Clear();
             foreach (string tmp in AccountsManager.Instance.listFiles())
             {
                 listAccounts.Add(AccountsManager.Instance.LoadUser(tmp));
             }
             OnPropertyChanged("ListAccounts");
+
+            if (listAccounts.Count > 0)
+            {
+                for (int i = 0; i <= listAccounts.Count - 1; i++)
+                {
+                    if (listAccounts[i].FileName == Helpers.AppSettings.DefaultUserfile)
+                    {
+                        SelectedAccount = i;
+                    }
+                }
+            }
+            isUpdating = false;
         }
+        
+        public bool isUpdating = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

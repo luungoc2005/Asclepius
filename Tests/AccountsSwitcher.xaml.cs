@@ -21,6 +21,7 @@ namespace Asclepius
             this.DataContext = viewModel;
         }
 
+
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new Uri("/NewAccountPage.xaml", UriKind.Relative));
@@ -28,9 +29,15 @@ namespace Asclepius
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (viewModel.isUpdating) return;
             if (viewModel.SelectedAccount > -1)
             {
-                this.NavigationService.Navigate(new Uri("/LoginPage.xaml?file=" + viewModel.ListAccounts[viewModel.SelectedAccount].FileName, UriKind.Relative));
+                try
+                {
+                    Helpers.AppSettings.DefaultUserfile = viewModel.ListAccounts[viewModel.SelectedAccount].FileName;
+                    this.NavigationService.Navigate(new Uri("/LoginPage.xaml?file=" + viewModel.ListAccounts[viewModel.SelectedAccount].FileName, UriKind.Relative));
+                }
+                catch { }
             }
         }
     }
