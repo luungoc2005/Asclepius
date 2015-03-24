@@ -156,7 +156,7 @@ namespace Asclepius.ViewModels
 
         public void CreateAccount()
         {
-            if (FirstPassword == ConfirmPassword)
+            if (FirstPassword != "" && FirstPassword == ConfirmPassword)
             {
                 user.setPassword(FirstPassword);
                 AccountsManager.Instance.AcceptUser(user);

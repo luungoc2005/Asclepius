@@ -82,7 +82,6 @@ namespace Asclepius.User
             return string.Concat(bytes.Select(b => b <= 0x7f ? (char)b : '?'));
         } 
 
-        [System.ComponentModel.DefaultValue(Gender.Male)]
         public Gender UserGender { get; set; }
 
         public DateTime Birthdate { get; set; }
