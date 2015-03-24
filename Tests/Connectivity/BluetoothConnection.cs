@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
-using Asclepius.Connectivity.Messages;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Bluetooth.Rfcomm;
 using Windows.Foundation;
 
 namespace Asclepius.Connectivity
 {
-    public class ConnectionManager
+    public class BluetoothConnection
     {
         #region "Variables"
         private IAsyncOperation<RfcommDeviceService> connectService;

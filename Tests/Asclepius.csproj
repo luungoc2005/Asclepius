@@ -124,9 +124,13 @@
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Helpers\StepCounterHelper.cs" />
+    <Compile Include="SnapshotPage.xaml.cs">
+      <DependentUpon>SnapshotPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="User\AccountsManager.cs" />
     <Compile Include="User\AppUser.cs" />
     <Compile Include="User\Record.cs" />
+    <Compile Include="User\Snapshot.cs" />
     <Compile Include="ViewModels\AccountsSwitcherViewModel.cs" />
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
@@ -154,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewAccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SnapshotPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

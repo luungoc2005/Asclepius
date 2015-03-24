@@ -23,6 +23,8 @@ namespace Asclepius.ViewModels
                 user = manager.LoadUser(AppSettings.DefaultUserfile + ".xml");
             }
             else { user = new AppUser(); }
+
+            Password = AppSettings.DefaultPassword;
         }
 
         public LoginPageViewModel(string filename)
@@ -64,6 +66,8 @@ namespace Asclepius.ViewModels
 
         public string Password { get; set; }
 
+        public bool IsRememberPass { get; set; }
+
         public bool IsPasswordInvalid { get; set; }
 
         public bool LoginButtonClick()
@@ -72,6 +76,9 @@ namespace Asclepius.ViewModels
             if (user.comparePassword(Password)) {
                 //Login
                 manager.AcceptUser(user);
+
+                if (IsRememberPass) AppSettings.DefaultPassword = Password;
+
                 return true;
             }
             else

@@ -24,10 +24,18 @@ namespace Asclepius
         {
             InitializeComponent();
             this.DataContext=viewModel;
+
+            this.Loaded += LoginPage_Loaded;
+
             //objManager = new Connectivity.ConnectionManager();
             //objManager.Initialize();
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+        }
+
+        void LoginPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Helpers.AppSettings.DefaultPassword != "") Button_Click(this, new RoutedEventArgs());
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -31,6 +31,10 @@ namespace Asclepius.Helpers
 
             itemsDict.Add(3,new NotifcationItem("Sensor not found", "The required sensor is not available on this device.",
                 delegate() {}, false));
+
+            itemsDict.Add(4, new NotifcationItem("Take snapshot", "You are recommended to take a snapshot regularly",
+                delegate() { App.RootFrame.Navigate(new Uri("/SnapshotPage.xaml", UriKind.Relative)); }, false));
+            
         }
 
         public void pushNotification(int ID)

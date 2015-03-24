@@ -11,46 +11,64 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.BackgroundColor="#FF114C85">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FF114C85"/>
+                <GradientStop Color="#FF0076E6" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="ASCLEPIUS" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-            <TextBlock Text="home" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+        <phone:Panorama Title="asclepius">
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
+            <phone:PanoramaItem Header="home">
+                <Grid>
                     <StackPanel>
-                        <Border Width="128" Height="128" BorderBrush="{StaticResource PhoneChromeBrush}" BorderThickness="2" Background="{StaticResource PhoneInactiveBrush}">
-                            <Image Width="128" Height="128" Source="{Binding Path=UserAvatar}" />
-                        </Border>
-                        <HyperlinkButton Content="change" Click="HyperlinkButton_Click" />
-                    </StackPanel>
-                    <StackPanel Margin="12,0,12,0">
-                        <TextBlock Text="{Binding Path=Username}" FontSize="30" />
-                        <TextBlock Text="{Binding Path=Description}" />
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Weight: " />
-                            <TextBlock Text="{Binding Path=Weight}" />
-                            <TextBlock Text=" kg" />
-                            <TextBlock Text="Height: " Margin="12,0,0,0" />
-                            <TextBlock Text="{Binding Path=Height}" />
-                            <TextBlock Text=" cm" />                            
+                            <StackPanel>
+                                <Border Width="128" Height="128" BorderBrush="{StaticResource PhoneChromeBrush}" BorderThickness="2" Background="{StaticResource PhoneInactiveBrush}">
+                                    <Image Width="128" Height="128" Source="{Binding Path=UserAvatar}" />
+                                </Border>
+                                <HyperlinkButton Content="change" Click="HyperlinkButton_Click" />
+                            </StackPanel>
+                            <StackPanel Margin="12,0,12,0">
+                                <TextBlock Text="{Binding Path=Username}" FontSize="30" />
+                                <TextBlock Text="{Binding Path=Description}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Weight: " />
+                                    <TextBlock Text="{Binding Path=Weight}" />
+                                    <TextBlock Text=" kg" />
+                                    <TextBlock Text="Height: " Margin="12,0,0,0" />
+                                    <TextBlock Text="{Binding Path=Height}" />
+                                    <TextBlock Text=" cm" />
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
+                </Grid>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem Header="daily stats">
+                <Grid>
+
+                </Grid>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem Header="all time">
+                <Grid>
+
+                </Grid>
+            </phone:PanoramaItem>
+
+        </phone:Panorama>
     </Grid>
 
 </phone:PhoneApplicationPage>

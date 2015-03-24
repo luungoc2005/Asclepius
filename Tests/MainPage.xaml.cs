@@ -20,6 +20,18 @@ namespace Asclepius
             this.DataContext = viewModel;
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+
+            if (MessageBox.Show("Would you like to sign out of this account?", "Prompt", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            {
+                User.AccountsManager.Instance.SaveUser();
+                Helpers.AppSettings.DefaultPassword = "";
+                this.NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
+            }
+        }
+
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             viewModel.ChangeUserAvatar();

@@ -10,13 +10,7 @@ namespace Asclepius.User
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public double Weight { get; set; } //user weight in kg
-        public double Height { get; set; } //user height in meters
-
-        //Device stats
-        public int PulseRate { get; set; }
-        public double Temperature { get; set; } //in Celcius
-
+        
         //Pedometer stats
         public int WalkingSteps { get; set; }
         public int RunningSteps { get; set; }
@@ -25,12 +19,18 @@ namespace Asclepius.User
         public long WalkTime { get; set; } //in seconds
         public int SurfaceGrade { get; set; }
 
-        //Converters
-        public double WeightInLbs()
+        //Methods
+        public void StartRecord()
         {
-            return Weight * 2.20462;
+            StartDate = DateTime.Now;
         }
 
+        public void StopRecord()
+        {
+            EndDate = DateTime.Now;
+        }
+
+        //Converters
         public double TimeInMinutes()
         {
             return WalkTime / 60;
@@ -50,12 +50,7 @@ namespace Asclepius.User
         {
             return Distance * 0.621371;
         }
-
-        public double TempInFahrenheit()
-        {
-            return Temperature * 1.8 + 32;
-        }
-
+        
         public int CompareTo(Record target)
         {
             return StartDate.CompareTo(target.StartDate);

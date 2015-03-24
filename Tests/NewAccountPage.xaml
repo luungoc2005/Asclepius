@@ -11,7 +11,8 @@
     x:Class="Asclepius.NewAccountPage"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"    
+    shell:SystemTray.BackgroundColor="#FF114C85">
 
     <phone:PhoneApplicationPage.Resources>
         <Converters:GenderEnumToBoolConverter x:Key="GenderEnumToBoolConverter"/>
@@ -26,7 +27,13 @@
         <StaticResource ResourceKey="PhoneForegroundBrush"/>
     </phone:PhoneApplicationPage.Foreground>
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FF114C85"/>
+                <GradientStop Color="#FF0076E6" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

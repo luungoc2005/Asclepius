@@ -87,6 +87,7 @@ namespace Asclepius.User
         public DateTime Birthdate { get; set; }
 
         public List<Record> Records;
+        public List<Snapshot> Snapshots;
         public List<Record> UserGoals;
         public List<Record> AutoGoals;
 

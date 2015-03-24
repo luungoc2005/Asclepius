@@ -12,10 +12,17 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.BackgroundColor="#FF114C85">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FF114C85"/>
+                <GradientStop Color="#FF0076E6" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -67,7 +74,7 @@
                 </Border>
                 <TextBlock Text="{Binding Path=Username, Mode=OneWay}" FontSize="40" HorizontalAlignment="Center"></TextBlock>
                 <PasswordBox Password="{Binding Path=Password, Mode=TwoWay}" />     
-                <CheckBox Content="Remember my password"></CheckBox>
+                <CheckBox Content="Remember my password" IsChecked="{Binding Path=IsRememberPass, Mode=TwoWay}"></CheckBox>
                 <Button Content="Login" Click="Button_Click"></Button>
                 <HyperlinkButton Grid.Row="1" Content="Login with a different account" HorizontalAlignment="Left" Width="456" Click="HyperlinkButton_Click_1"/>
                 <HyperlinkButton Grid.Row="1" Content="Create a new account" Click="HyperlinkButton_Click"/>
