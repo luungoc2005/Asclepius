@@ -96,6 +96,7 @@ namespace Asclepius.User
 
         public byte[] Password { get; set; }
 
+
         public void setPassword(string pass)
         {
             Password = hashPassword(pass);
@@ -144,5 +145,10 @@ namespace Asclepius.User
                 return age;
             }
         }
+
+        //Social
+        
+        public List<string> Friends;
+        public string Status { get; set; }
     }
 }

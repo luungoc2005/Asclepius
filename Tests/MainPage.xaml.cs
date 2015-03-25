@@ -12,12 +12,12 @@ namespace Asclepius
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        ViewModels.MainPageViewModel viewModel = new ViewModels.MainPageViewModel();
+        Models.MainPageModel Model = new Models.MainPageModel();
 
         public MainPage()
         {
             InitializeComponent();
-            this.DataContext = viewModel;
+            this.DataContext = Model;
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
@@ -34,7 +34,7 @@ namespace Asclepius
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.ChangeUserAvatar();
+            Model.ChangeUserAvatar();
         }
     }
 }

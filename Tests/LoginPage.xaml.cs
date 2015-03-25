@@ -17,13 +17,13 @@ namespace Asclepius
         //Connectivity.ConnectionManager objManager;
         //List<DeviceInformation> serviceInfoList;
 
-        ViewModels.LoginPageViewModel viewModel = new ViewModels.LoginPageViewModel();
+        Models.LoginPageModel Model = new Models.LoginPageModel();
 
         // Constructor
         public LoginPage()
         {
             InitializeComponent();
-            this.DataContext=viewModel;
+            this.DataContext=Model;
 
             this.Loaded += LoginPage_Loaded;
 
@@ -43,8 +43,8 @@ namespace Asclepius
             string parameter = string.Empty;
             if (NavigationContext.QueryString.TryGetValue("file", out parameter))
             {
-                viewModel = new ViewModels.LoginPageViewModel(parameter);
-                this.DataContext = viewModel;
+                Model = new Models.LoginPageModel(parameter);
+                this.DataContext = Model;
             }
 
             base.OnNavigatedTo(e);
@@ -57,7 +57,7 @@ namespace Asclepius
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (viewModel.LoginButtonClick()) this.NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            if (Model.LoginButtonClick()) this.NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
         private void HyperlinkButton_Click_1(object sender, RoutedEventArgs e)

@@ -9,14 +9,14 @@ using System.Windows.Navigation;
 using Asclepius.Helpers;
 using Asclepius.User;
 
-namespace Asclepius.ViewModels
+namespace Asclepius.Models
 {
-    class LoginPageViewModel : INotifyPropertyChanged 
+    class LoginPageModel : INotifyPropertyChanged 
     {
         AccountsManager manager = AccountsManager.Instance;
         AppUser user;
 
-        public LoginPageViewModel()
+        public LoginPageModel()
         {
             if (AppSettings.DefaultUserfile != "")
             {
@@ -27,7 +27,7 @@ namespace Asclepius.ViewModels
             Password = AppSettings.DefaultPassword;
         }
 
-        public LoginPageViewModel(string filename)
+        public LoginPageModel(string filename)
         {
             if (filename != "")
             {

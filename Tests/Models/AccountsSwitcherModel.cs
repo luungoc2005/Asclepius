@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Asclepius.User;
 using System.ComponentModel;
 
-namespace Asclepius.ViewModels
+namespace Asclepius.Models
 {
-    public class AccountsSwitcherViewModel : INotifyPropertyChanged
+    public class AccountsSwitcherModel : INotifyPropertyChanged
     {
         List<AppUser> listAccounts=new List<AppUser>();
         
@@ -31,7 +31,7 @@ namespace Asclepius.ViewModels
         [System.ComponentModel.DefaultValue(-1)]
         public int SelectedAccount { get; set; }
 
-        public AccountsSwitcherViewModel()
+        public AccountsSwitcherModel()
         {
             isUpdating = true;
             listAccounts.Clear();

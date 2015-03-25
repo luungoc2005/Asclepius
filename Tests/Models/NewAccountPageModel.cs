@@ -8,9 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using Asclepius.User;
 
-namespace Asclepius.ViewModels
+namespace Asclepius.Models
 {
-    class NewAccountPageViewModel : INotifyPropertyChanged 
+    class NewAccountPageModel : INotifyPropertyChanged 
     {
         public AppUser user = new AppUser();
 

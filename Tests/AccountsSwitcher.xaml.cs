@@ -7,18 +7,18 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using Asclepius.ViewModels;
+using Asclepius.Models;
 
 namespace Asclepius
 {
     public partial class AccountsSwitcher : PhoneApplicationPage
     {
-        AccountsSwitcherViewModel viewModel = new AccountsSwitcherViewModel();
+        AccountsSwitcherModel Model = new AccountsSwitcherModel();
 
         public AccountsSwitcher()
         {
             InitializeComponent();
-            this.DataContext = viewModel;
+            this.DataContext = Model;
         }
 
 
@@ -29,13 +29,13 @@ namespace Asclepius
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (viewModel.isUpdating) return;
-            if (viewModel.SelectedAccount > -1)
+            if (Model.isUpdating) return;
+            if (Model.SelectedAccount > -1)
             {
                 try
                 {
-                    Helpers.AppSettings.DefaultUserfile = viewModel.ListAccounts[viewModel.SelectedAccount].FileName;
-                    this.NavigationService.Navigate(new Uri("/LoginPage.xaml?file=" + viewModel.ListAccounts[viewModel.SelectedAccount].FileName, UriKind.Relative));
+                    Helpers.AppSettings.DefaultUserfile = Model.ListAccounts[Model.SelectedAccount].FileName;
+                    this.NavigationService.Navigate(new Uri("/LoginPage.xaml?file=" + Model.ListAccounts[Model.SelectedAccount].FileName, UriKind.Relative));
                 }
                 catch { }
             }

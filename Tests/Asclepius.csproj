@@ -98,8 +98,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Connectivity\ConnectionManager.cs" />
-    <Compile Include="Connectivity\MsgCommon.cs" />
+    <Compile Include="Connectivity\BluetoothConnection.cs" />
+    <Compile Include="Connectivity\ClientsManager.cs" />
+    <Compile Include="Connectivity\UDPClientFinder.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\GenderEnumToBoolConverter.cs" />
     <Compile Include="Graph\GraphControl.xaml.cs">
@@ -131,10 +132,10 @@
     <Compile Include="User\AppUser.cs" />
     <Compile Include="User\Record.cs" />
     <Compile Include="User\Snapshot.cs" />
-    <Compile Include="ViewModels\AccountsSwitcherViewModel.cs" />
-    <Compile Include="ViewModels\LoginPageViewModel.cs" />
-    <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\NewAccountPageViewModel.cs" />
+    <Compile Include="Models\AccountsSwitcherModel.cs" />
+    <Compile Include="Models\LoginPageModel.cs" />
+    <Compile Include="Models\MainPageModel.cs" />
+    <Compile Include="Models\NewAccountPageModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

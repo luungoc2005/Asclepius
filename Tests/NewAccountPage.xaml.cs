@@ -12,18 +12,18 @@ namespace Asclepius
 {
     public partial class NewAccountPage : PhoneApplicationPage
     {
-        ViewModels.NewAccountPageViewModel viewModel = new ViewModels.NewAccountPageViewModel();
+        Models.NewAccountPageModel Model = new Models.NewAccountPageModel();
 
         public NewAccountPage()
         {
             InitializeComponent();
-            this.DataContext = viewModel;
+            this.DataContext = Model;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.CreateAccount();
-            Asclepius.Helpers.AppSettings.DefaultUserfile = viewModel.user.FileName;
+            Model.CreateAccount();
+            Asclepius.Helpers.AppSettings.DefaultUserfile = Model.user.FileName;
 
             this.NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
         }

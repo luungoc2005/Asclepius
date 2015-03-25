@@ -37,15 +37,22 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel>
-                <ListBox ItemsSource="{Binding Path=ListAccounts}" SelectedIndex="{Binding Path=SelectedAccount, Mode=TwoWay}" SelectionChanged="ListBox_SelectionChanged">
+                <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=ListAccounts}" SelectedIndex="{Binding Path=SelectedAccount, Mode=TwoWay}" SelectionChanged="ListBox_SelectionChanged">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="128" Height="128" Source="{Binding Path=UserAvatar, Mode=OneWay}" />
-                                <TextBlock Text="{Binding Path=Username}" Margin="12,0,12,0" FontSize="30" />
-                            </StackPanel>
+                            <Border HorizontalAlignment="Stretch" Padding="5" BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneSemitransparentBrush}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="128" Height="128" Source="{Binding Path=UserAvatar, Mode=OneWay}" />
+                                        <TextBlock Text="{Binding Path=Username}" Margin="12,0,12,0" FontSize="30" />
+                                    </StackPanel>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                 </ListBox>
                 <HyperlinkButton Grid.Row="1" Content="Create a new account" Click="HyperlinkButton_Click"/>
             </StackPanel>

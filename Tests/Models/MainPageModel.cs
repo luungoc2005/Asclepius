@@ -13,9 +13,9 @@ using Windows.Storage.Streams;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace Asclepius.ViewModels
+namespace Asclepius.Models
 {
-    class MainPageViewModel : INotifyPropertyChanged 
+    class MainPageModel : INotifyPropertyChanged 
     {
         AccountsManager manager = AccountsManager.Instance;
         AppUser user;
@@ -28,7 +28,7 @@ namespace Asclepius.ViewModels
             }
         }
 
-        public MainPageViewModel()
+        public MainPageModel()
         {
             if (AppSettings.DefaultUserfile != "")
             {
@@ -160,11 +160,26 @@ namespace Asclepius.ViewModels
             Microsoft.Phone.Shell.PhoneApplicationService.Current.ContractActivated -= Application_ContractActivated;
         }
 
+        //social
+
         public BitmapImage UserAvatar
         {
             get
             {
                 return user.UserAvatar;
+            }
+        }
+
+        public string UserStatus
+        {
+            get
+            {
+                return user.Status;
+            }
+            set
+            {
+                user.Status = value;
+                OnPropertyChanged("UserStatus");
             }
         }
     }

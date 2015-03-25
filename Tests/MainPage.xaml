@@ -27,48 +27,70 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <phone:Panorama Title="asclepius">
-
-            <phone:PanoramaItem Header="home">
-                <Grid>
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <StackPanel>
-                                <Border Width="128" Height="128" BorderBrush="{StaticResource PhoneChromeBrush}" BorderThickness="2" Background="{StaticResource PhoneInactiveBrush}">
-                                    <Image Width="128" Height="128" Source="{Binding Path=UserAvatar}" />
-                                </Border>
-                                <HyperlinkButton Content="change" Click="HyperlinkButton_Click" />
-                            </StackPanel>
-                            <StackPanel Margin="12,0,12,0">
-                                <TextBlock Text="{Binding Path=Username}" FontSize="30" />
-                                <TextBlock Text="{Binding Path=Description}" />
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Weight: " />
-                                    <TextBlock Text="{Binding Path=Weight}" />
-                                    <TextBlock Text=" kg" />
-                                    <TextBlock Text="Height: " Margin="12,0,0,0" />
-                                    <TextBlock Text="{Binding Path=Height}" />
-                                    <TextBlock Text=" cm" />
-                                </StackPanel>
-                            </StackPanel>
+        <phone:Pivot Title="ASCLEPIUS">
+            <!--Pivot item one-->
+            <phone:PivotItem Header="home">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Width="135" Grid.Column="0">
+                            <Border Width="128" Height="128" BorderBrush="{StaticResource PhoneChromeBrush}" BorderThickness="2" Background="{StaticResource PhoneInactiveBrush}">
+                                <Image Width="128" Height="128" Source="{Binding Path=UserAvatar}" />
+                            </Border>
+                            <HyperlinkButton Content="change" Click="HyperlinkButton_Click" />
                         </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </phone:PanoramaItem>
+                        <StackPanel Margin="12,0,0,0" Grid.Column="1">
+                            <TextBlock Text="{Binding Path=Username}" FontSize="30" />
+                            <TextBlock Text="{Binding Path=Description}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Weight: " />
+                                <TextBlock Text="{Binding Path=Weight}" />
+                                <TextBlock Text=" kg" />
+                                <TextBlock Text="Height: " Margin="12,0,0,0" />
+                                <TextBlock Text="{Binding Path=Height}" />
+                                <TextBlock Text=" cm" />
+                            </StackPanel>
+                            <TextBox Text="{Binding Path=UserStatus, Mode=TwoWay}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </phone:PivotItem>
 
-            <phone:PanoramaItem Header="daily stats">
-                <Grid>
+            <!--Pivot item two-->
+            <phone:PivotItem Header="stats">
+                <StackPanel>
+                    <TextBlock Text="Today" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.7*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock HorizontalAlignment="Center" Text="0" FontSize="72" />
+                            <TextBlock HorizontalAlignment="Center" Text="steps" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock HorizontalAlignment="Center" Text="Running steps" />
+                            <TextBlock HorizontalAlignment="Center" Text="0" />
+                            <TextBlock HorizontalAlignment="Center" Margin="0,12,0,0" Text="Calories" />
+                            <TextBlock HorizontalAlignment="Center" Text="0" />
+                        </StackPanel>
+                    </Grid>           
+                </StackPanel>
+            </phone:PivotItem>
 
-                </Grid>
-            </phone:PanoramaItem>
-
-            <phone:PanoramaItem Header="all time">
-                <Grid>
-
-                </Grid>
-            </phone:PanoramaItem>
-
-        </phone:Panorama>
+            <!--Pivot item two-->
+            <phone:PivotItem Header="notifications">
+                <Grid/>
+            </phone:PivotItem>
+            
+            <phone:PivotItem Header="friends">
+                <Grid/>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
 
 </phone:PhoneApplicationPage>
