@@ -138,7 +138,7 @@ namespace Asclepius.Connectivity
                         dataReader.ReadBytes(bData);
                     }
 
-                    MessageReceived(intMsgType, bData);
+                    if (MessageReceived!=null) MessageReceived(intMsgType, bData);
                 }
             }
             catch //(Exception ex)

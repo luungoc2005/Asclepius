@@ -10,7 +10,7 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    shell:SystemTray.BackgroundColor="#FF114C85">
+    shell:SystemTray.BackgroundColor="#FF11853F">
 
     <phone:PhoneApplicationPage.Resources>
         <Converters:ValueToProgressConverter x:Key="ValueToProgressConverter"/>
@@ -29,13 +29,7 @@
         <StaticResource ResourceKey="PhoneForegroundBrush"/>
     </phone:PhoneApplicationPage.Foreground>
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot">
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                <GradientStop Color="#FF114C85"/>
-                <GradientStop Color="#FF0076E6" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+    <Grid x:Name="LayoutRoot" Background="{StaticResource AppBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
