@@ -22,7 +22,7 @@ namespace Asclepius.User
 
         public double Distance()
         {
-            return (stepReading.WalkingStepCount + stepReading.RunningStepCount) * Stride;
+            return (stepReading.WalkingStepCount + stepReading.RunningStepCount) * Stride / 2;
         }
 
         //Methods

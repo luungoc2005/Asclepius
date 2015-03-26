@@ -13,6 +13,7 @@
     shell:SystemTray.BackgroundColor="#FF11853F">
 
     <phone:PhoneApplicationPage.Resources>
+        <Converters:DeviceToTextConverter x:Key="DeviceToTextConverter"/>
         <Converters:BMIToTextConverter x:Key="BMIToTextConverter"/>
         <Converters:ValueToProgressConverter x:Key="ValueToProgressConverter"/>
     </phone:PhoneApplicationPage.Resources>
@@ -73,6 +74,25 @@
                         </Grid>
                     </Border>
 
+                    <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
+                            Background="{StaticResource BlockBackgroundBrush}" Margin="0,12,0,0">
+                        <StackPanel>
+                            <ListBox Height="100" x:Name="lbDevices" DisplayMemberPath="Name" SelectedIndex="{Binding Path=SelectedDevice, Mode=TwoWay}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Find Devices" Click="Button_Click" />
+                                <Button Content="Connect" Click="Button_Click_1" />
+                                <TextBlock Text="{Binding Path=BytesReceived}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Temperature: " />
+                                <TextBlock Text="{Binding Temperature}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Heart rate: " />
+                                <TextBlock Text="{Binding HeartRate}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </phone:PivotItem>
 

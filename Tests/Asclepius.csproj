@@ -103,6 +103,7 @@
     <Compile Include="Connectivity\UDPClientFinder.cs" />
     <Compile Include="Converters\BMIToTextConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\DeviceToTextConverter.cs" />
     <Compile Include="Converters\GenderEnumToBoolConverter.cs" />
     <Compile Include="Converters\ValueToProgressConverter.cs" />
     <Compile Include="Graph\GraphControl.xaml.cs">

@@ -12,6 +12,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using System.IO;
 using System.Windows.Media.Imaging;
+using Windows.Devices.Enumeration;
 
 namespace Asclepius.Models
 {
@@ -237,5 +238,90 @@ namespace Asclepius.Models
                 OnPropertyChanged("Distance");
             }
         }
+
+
+        //[System.ComponentModel.DefaultValue(-1)]
+        //public int SelectedDevice { get; set; }
+
+        //public List<string> DevicesList
+        //{
+        //    get
+        //    {
+        //        return (_bluetooth == null ? null : _bluetooth.listNames);
+        //    }
+        //    set
+        //    {
+        //        _bluetooth.listNames = value;
+        //        OnPropertyChanged("DevicesList");
+        //    }
+        //}
+
+        //public async void RefreshDeviceList()
+        //{
+        //    await _bluetooth.EnumerateDevices();
+        //    OnPropertyChanged("DevicesList");
+        //    //try
+        //    //{
+        //    //    _bluetooth.Connect(_bluetooth.listDevices[0]);
+        //    //}
+        //    //catch { }
+        //}
+
+        //public void ConnectToSelected()
+        //{
+        ////    if (SelectedDevice >= 0)
+        ////    {
+        ////        _bluetooth.Connect(_bluetooth.listDevices[SelectedDevice]);
+        ////        _bluetooth.MessageReceived += _bluetooth_MessageReceived;
+        ////    }
+        //}
+
+        double _temperature;
+        double _heartRate;
+
+        public double Temperature
+        {
+            get
+            {
+                return _temperature;
+            }
+            set
+            {
+                _temperature = value;
+                OnPropertyChanged("Temperature");
+            }
+        }
+
+        public double HeartRate
+        {
+            get
+            {
+                return _heartRate;
+            }
+            set
+            {
+                _heartRate = value;
+                OnPropertyChanged("HeartRate");
+            }
+        }
+
+        int _bytes;
+        public int BytesReceived
+        {
+            get
+            {
+                return _bytes;
+            }
+            set
+            {
+                _bytes = value;
+                OnPropertyChanged("BytesReceived");
+            }
+        }
+
+        //void _bluetooth_MessageReceived(int ID, byte[] data)
+        //{
+        //    string data = Encoding.UTF8.GetString(data,0,data.Length);
+        //}
     }
 }

@@ -10,6 +10,10 @@ using Windows.Storage.Streams;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Bluetooth.Rfcomm;
 using Windows.Foundation;
+using Windows.Networking.Proximity;
+using System.Windows;
+using System.IO;
+using System.Windows.Threading;
 
 namespace Asclepius.Connectivity
 {
@@ -28,15 +32,15 @@ namespace Asclepius.Connectivity
 
         private BackgroundWorker dataReadWorker;
 
-        public delegate void MessageReceivedHandler(int ID, byte[] data);
+        public delegate void MessageReceivedHandler(float num1, float num2);
 
         public event MessageReceivedHandler MessageReceived;
         #endregion
 
         #region "Public methods"
 
-        public void Initialize()
-        {
+        public BluetoothConnection() 
+        {        
             socket = new StreamSocket();
             dataReadWorker = new BackgroundWorker();
             dataReadWorker.WorkerSupportsCancellation = true;
@@ -55,14 +59,22 @@ namespace Asclepius.Connectivity
             }
         }
 
-        public async Task<List<DeviceInformation>> EnumerateDevices()
+        public async Task EnumerateDevices()
         {
             var serviceInfoCollection = await DeviceInformation.FindAllAsync(RfcommDeviceService.GetDeviceSelector(RfcommServiceId.SerialPort));
-            var retList = new List<DeviceInformation>();
+            //var retList = new List<DeviceInformation>();
+            listDevices.Clear();
+            listNames.Clear();
             foreach (var serviceInfo in serviceInfoCollection)
-                retList.Add(serviceInfo);
-            return retList;
+            {
+                listNames.Add(serviceInfo.Name);
+                listDevices.Add(serviceInfo);
+            }
+            //return retList;
         }
+
+        public List<DeviceInformation> listDevices = new List<DeviceInformation>();
+        public List<string> listNames = new List<string>();
 
         public async void Connect(DeviceInformation serviceInfo)
         {
@@ -76,9 +88,17 @@ namespace Asclepius.Connectivity
                     {
                         await socket.ConnectAsync(rfcommService.ConnectionHostName, rfcommService.ConnectionServiceName, SocketProtectionLevel.BluetoothEncryptionAllowNullAuthentication);
                         dataReader = new DataReader(socket.InputStream);
-                        dataReadWorker.RunWorkerAsync();
                         dataWriter = new DataWriter(socket.OutputStream);
+                        dataReadWorker.RunWorkerAsync();
                     }
+                    else
+                    {
+                        MessageBox.Show("Connection failed");
+                    }
+                    //await socket.ConnectAsync(serviceInfo., rfcommService.ConnectionServiceName, SocketProtectionLevel.BluetoothEncryptionAllowNullAuthentication);
+                    //dataReader = new DataReader(socket.InputStream);
+                    //dataReadWorker.RunWorkerAsync();
+                    //dataWriter = new DataWriter(socket.OutputStream);
                 }
                 catch (Exception)
                 {
@@ -116,29 +136,45 @@ namespace Asclepius.Connectivity
         {
             try
             {
+                //MemoryStream ms = new MemoryStream();
+
                 while (true)
                 {
-                    //MSG type
-                    if (await dataReader.LoadAsync(sizeof(byte)) != sizeof(byte))
+                    if (dataReader != null)
                     {
-                        //Disconnected
+                        await dataReader.LoadAsync(sizeof(float) * 2);
+                        if (MessageReceived != null) {
+                            Deployment.Current.Dispatcher.BeginInvoke(() => { MessageReceived((float)dataReader.ReadSingle(), (float)dataReader.ReadSingle()); });
+                        }
+                        //ms.WriteByte(dataReader.ReadByte());
+
+                        //if (ms.Length==sizeof(float) *2) {
+                        //    using (BinaryReader objRead = new BinaryReader(ms))
+                        //    {
+                        //    }
+                        //    ms.Close();
+                        //    ms = new MemoryStream();
+                        //}
                     }
+                    ////MSG type
+                    //if (await dataReader.LoadAsync(sizeof(byte)) != sizeof(byte))
+                    //{
+                    //    //Disconnected
+                    //}
 
-                    byte intMsgType = dataReader.ReadByte();
+                    //byte intMsgType = dataReader.ReadByte();
 
-                    //int intLength = MsgCommon.dictMessages[intMsgType];
-                    int intLength = sizeof(float);
+                    ////int intLength = MsgCommon.dictMessages[intMsgType];
+                    //int intLength = sizeof(float);
 
-                    byte[] bData = new byte[Math.Max(intLength - 1, 0)];
+                    //byte[] bData = new byte[Math.Max(intLength - 1, 0)];
 
-                    if (intLength > 0)
-                    {
-                        await dataReader.LoadAsync((uint)intLength);
+                    //if (intLength > 0)
+                    //{
+                    //    await dataReader.LoadAsync((uint)intLength);
 
-                        dataReader.ReadBytes(bData);
-                    }
-
-                    if (MessageReceived!=null) MessageReceived(intMsgType, bData);
+                    //    dataReader.ReadBytes(bData);
+                    //}
                 }
             }
             catch //(Exception ex)
