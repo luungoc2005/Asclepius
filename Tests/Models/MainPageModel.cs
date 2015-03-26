@@ -34,6 +34,7 @@ namespace Asclepius.Models
             {
                 user = manager.CurrentUser;
             }
+            StepCounterHelper.Instance.mainModel = this;
         }
 
         public string Birthdate
@@ -102,11 +103,6 @@ namespace Asclepius.Models
             {
                 return user.Weight;
             }
-            set
-            {
-                user.Weight = value;
-                OnPropertyChanged("Weight");
-            }
         }
 
         public double Height
@@ -114,11 +110,6 @@ namespace Asclepius.Models
             get
             {
                 return user.Height;
-            }
-            set
-            {
-                user.Height = value;
-                OnPropertyChanged("Height");
             }
         }
 
@@ -182,5 +173,10 @@ namespace Asclepius.Models
                 OnPropertyChanged("UserStatus");
             }
         }
+
+        public bool IsWalking { get; set; }
+        public uint TotalSteps { get; set; }
+        public uint RunningSteps { get; set; }
+        public double Distance { get; set; }
     }
 }

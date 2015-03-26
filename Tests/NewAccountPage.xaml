@@ -65,16 +65,26 @@
                     </StackPanel>
                     <TextBlock Text="Birthday" />
                     <toolkit:DatePicker Value="{Binding Birthdate, Mode=TwoWay}" />
-                    <TextBlock Text="Height" />
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding Height, Mode=TwoWay}" />
-                        <TextBlock Text="cm" />
-                    </StackPanel>
-                    <TextBlock Text="Weight" />
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding Weight, Mode=TwoWay}" />
-                        <TextBlock Text="kg" />
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Height" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding Height, Mode=TwoWay}" />
+                                <TextBlock VerticalAlignment="Center" Text="cm" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Weight" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding Weight, Mode=TwoWay}" />
+                                <TextBlock VerticalAlignment="Center" Text="kg" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
                     <Button Content="Create new account" Click="Button_Click" />
                 </StackPanel>
             </ScrollViewer>

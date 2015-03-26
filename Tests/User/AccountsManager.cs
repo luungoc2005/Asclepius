@@ -95,12 +95,16 @@ namespace Asclepius.User
             {
                 isoStore.CreateDirectory("localusers");
             }
-            return isoStore.OpenFile("localusers/" + fileName, FileMode.OpenOrCreate);
+            return isoStore.OpenFile("localusers\\" + fileName, FileMode.OpenOrCreate);
         }
 
         public string[] listFiles()
         {
-            return isoStore.GetFileNames("localusers/*.xml");
+            if (!isoStore.DirectoryExists("localusers"))
+            {
+                isoStore.CreateDirectory("localusers");
+            }
+            return isoStore.GetFileNames("localusers\\*.xml");
         }
     }
 }

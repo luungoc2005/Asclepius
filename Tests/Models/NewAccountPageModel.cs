@@ -13,6 +13,7 @@ namespace Asclepius.Models
     class NewAccountPageModel : INotifyPropertyChanged 
     {
         public AppUser user = new AppUser();
+        Snapshot firstSnap = new Snapshot();
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -92,11 +93,11 @@ namespace Asclepius.Models
         {
             get
             {
-                return user.Weight;
+                return firstSnap.Weight;
             }
             set
             {
-                user.Weight = value;
+                firstSnap.Weight = value;
                 OnPropertyChanged("Weight");
             }
         }
@@ -105,11 +106,11 @@ namespace Asclepius.Models
         {
             get
             {
-                return user.Height;
+                return firstSnap.Height;
             }
             set
             {
-                user.Height = value;
+                firstSnap.Height = value;
                 OnPropertyChanged("Height");
             }
         }
@@ -158,6 +159,7 @@ namespace Asclepius.Models
         {
             if (FirstPassword != "" && FirstPassword == ConfirmPassword)
             {
+                user.Snapshots.Insert(0, firstSnap);
                 user.setPassword(FirstPassword);
                 AccountsManager.Instance.AcceptUser(user);
                 AccountsManager.Instance.SaveUser();

@@ -51,8 +51,6 @@ namespace Asclepius.User
         [XmlElement("UserAvatar")]
         public byte[] UserAvatarSerialized { get; set; }
 
-        public enum Gender : byte { Other, Male, Female };
-
         public string Username { get; set; }
 
         private string fileName = "";
@@ -82,18 +80,6 @@ namespace Asclepius.User
             return string.Concat(bytes.Select(b => b <= 0x7f ? (char)b : '?'));
         } 
 
-        public Gender UserGender { get; set; }
-
-        public DateTime Birthdate { get; set; }
-
-        public List<Record> Records;
-        public List<Snapshot> Snapshots;
-        public List<Record> UserGoals;
-        public List<Record> AutoGoals;
-
-        public double Weight { get; set; } //user weight in kg
-        public double Height { get; set; } //user height in meters
-
         public byte[] Password { get; set; }
 
 
@@ -104,6 +90,8 @@ namespace Asclepius.User
 
         public bool comparePassword(string pass)
         {
+            if (Password == null) return false;
+
             byte[] hash = hashPassword(pass);
             for (int i = 0; i < Math.Min(hash.Length,Password.Length); i++)
             {
@@ -121,9 +109,6 @@ namespace Asclepius.User
 
         public AppUser()
         {
-            Records = new List<Record>();
-            UserGoals=new List<Record>();
-            AutoGoals = new List<Record>();
             Birthdate = DateTime.Now;
             Username = "New User";
         }
@@ -131,8 +116,46 @@ namespace Asclepius.User
         public void SortLists()
         {
             Records.Sort(delegate(Record x, Record y) { return x.CompareTo(y); });
-            UserGoals.Sort(delegate(Record x, Record y) { return x.CompareTo(y); });
-            AutoGoals.Sort(delegate(Record x, Record y) { return x.CompareTo(y); });
+        }
+
+        #region "Basic info"
+
+        public enum Gender : byte { Other, Male, Female };
+        public Gender UserGender { get; set; }
+
+        public DateTime Birthdate { get; set; }
+
+        public List<Record> Records = new List<Record>();
+        public List<Snapshot> Snapshots = new List<Snapshot>();
+
+        public double Weight //user weight in kg
+        {
+            get
+            {
+                if (Snapshots.Count == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return Snapshots[0].Weight;
+                }
+            }
+        }
+
+        public double Height //user height in centimeters
+        {
+            get
+            {
+                if (Snapshots.Count == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return Snapshots[0].Height;
+                }
+            }
         }
 
         public int Age
@@ -146,9 +169,47 @@ namespace Asclepius.User
             }
         }
 
-        //Social
-        
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        public double Stride { get; set; }
+
+        [XmlIgnore]
+        public double StrideLength
+        {
+            get
+            {
+                if (Stride == 0)
+                {
+                    return Stride;
+                }
+                else
+                {
+                    switch (UserGender)
+                    {
+                        case Gender.Other:
+                            return Height * 0.415;
+                        case Gender.Male:
+                            return Height * 0.415;
+                        case Gender.Female:
+                            return Height * 0.413;
+                        default:
+                            return Height * 0.413;
+                    }
+                }
+            }
+            set
+            {
+                Stride = value;
+            }
+        }
+
+        #endregion
+
+        #region "Social"
+
         public List<string> Friends;
         public string Status { get; set; }
+
+        #endregion
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Asclepius.User
 {
-    public struct Snapshot
+    public class Snapshot
     {
         public DateTime DateTaken { get; set; }
 

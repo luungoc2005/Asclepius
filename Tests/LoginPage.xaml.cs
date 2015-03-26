@@ -35,6 +35,10 @@ namespace Asclepius
 
         void LoginPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (User.AccountsManager.Instance.listFiles().Length == 0)
+            {
+                this.NavigationService.Navigate(new Uri("/NewAccountPage.xaml", UriKind.Relative));
+            }
             if (Helpers.AppSettings.DefaultPassword != "") Button_Click(this, new RoutedEventArgs());
         }
 

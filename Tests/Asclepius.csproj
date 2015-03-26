@@ -103,10 +103,12 @@
     <Compile Include="Connectivity\UDPClientFinder.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\GenderEnumToBoolConverter.cs" />
+    <Compile Include="Converters\ValueToProgressConverter.cs" />
     <Compile Include="Graph\GraphControl.xaml.cs">
       <DependentUpon>GraphControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AppSettings.cs" />
+    <Compile Include="Helpers\CaloriesCalculator.cs" />
     <Compile Include="Helpers\NotificationsHelper.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="LoginPage.xaml.cs">
@@ -209,6 +211,8 @@
     </Content>
     <Content Include="Help\REDIST.TXT" />
     <Content Include="README_FIRST.txt" />
+    <Content Include="Resources\images\footsteps.png" />
+    <Content Include="Resources\long run.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
