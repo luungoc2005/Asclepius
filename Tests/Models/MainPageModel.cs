@@ -113,6 +113,14 @@ namespace Asclepius.Models
             }
         }
 
+        public double BMI
+        {
+            get
+            {
+                return user.BMI;
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -174,9 +182,60 @@ namespace Asclepius.Models
             }
         }
 
-        public bool IsWalking { get; set; }
-        public uint TotalSteps { get; set; }
-        public uint RunningSteps { get; set; }
-        public double Distance { get; set; }
+        bool _isWalking;
+        uint _totalSteps;
+        uint _runningSteps;
+        double _Distance;
+
+        public bool IsWalking
+        {
+            get
+            {
+                return _isWalking;
+            }
+            set
+            {
+                _isWalking = value;
+                OnPropertyChanged("IsWalking");
+            }
+        }
+
+        public uint TotalSteps
+        {
+            get
+            {
+                return _totalSteps;
+            }
+            set
+            {
+                _totalSteps = value;
+                OnPropertyChanged("TotalSteps");
+            }
+        }
+        public uint RunningSteps
+        {
+            get
+            {
+                return _runningSteps;
+            }
+            set
+            {
+                _runningSteps = value;
+                OnPropertyChanged("RunningSteps");
+            }
+        }
+
+        public double Distance
+        {
+            get
+            {
+                return _Distance;
+            }
+            set
+            {
+                _Distance = value;
+                OnPropertyChanged("Distance");
+            }
+        }
     }
 }

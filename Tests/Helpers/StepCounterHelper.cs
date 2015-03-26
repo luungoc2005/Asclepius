@@ -58,7 +58,7 @@ namespace Asclepius.Helpers
                     mainModel.RunningSteps = current.RunningStepCount;
                     mainModel.Distance = Math.Round(currentStepCount * AccountsManager.Instance.CurrentUser.StrideLength / 1000, 1);
                 }
-            }
+            }            
         }
 
         private async Task UpdateUserRecordAsync()
@@ -139,6 +139,7 @@ namespace Asclepius.Helpers
 
         private async void PollTimerTick(object sender, EventArgs e)
         {
+            //if (mainModel != null) mainModel.TotalSteps += 1000; //comment this line
             if (isStarted)
             {
                 await UpdateCounterAsync();

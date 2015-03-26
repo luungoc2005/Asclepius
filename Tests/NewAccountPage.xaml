@@ -43,42 +43,55 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Text="Account Information" FontWeight="Bold" Margin="0,12,0,12" />
-                    <TextBlock Text="Username" />
-                    <TextBox Text="{Binding Username, Mode=TwoWay}" />
-                    <TextBlock Text="Password" />
-                    <PasswordBox Password="{Binding FirstPassword, Mode=TwoWay}" />
-                    <TextBlock Text="Confirm Password" />
-                    <PasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" />
-                    <TextBlock Text="User Information" FontWeight="Bold" Margin="0,12,0,12" />
-                    <TextBlock Text="Gender" />
-                    <StackPanel Orientation="Horizontal">
-                        <RadioButton Content="Male" IsChecked="{Binding Path=Gender, ConverterParameter=Male, Converter={StaticResource GenderEnumToBoolConverter}, Mode=TwoWay}"/>
-                        <RadioButton Content="Female" IsChecked="{Binding Path=Gender, ConverterParameter=Female, Converter={StaticResource GenderEnumToBoolConverter}, Mode=TwoWay}" />
-                        <RadioButton Content="Other" IsChecked="{Binding Path=Gender, ConverterParameter=Other, Converter={StaticResource GenderEnumToBoolConverter}, Mode=TwoWay}" />
-                    </StackPanel>
-                    <TextBlock Text="Birthday" />
-                    <toolkit:DatePicker Value="{Binding Birthdate, Mode=TwoWay}" />
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Text="Height" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBox Text="{Binding Height, Mode=TwoWay}" />
-                                <TextBlock VerticalAlignment="Center" Text="cm" />
-                            </StackPanel>
+                    <TextBlock Text="Account Information" Margin="0,12,0,12" />
+
+                    <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
+                            Background="{StaticResource BlockBackgroundBrush}">
+                        <StackPanel>
+                            <TextBlock Text="Username" />
+                            <TextBox Text="{Binding Username, Mode=TwoWay}" />
+                            <TextBlock Text="Password" />
+                            <PasswordBox Password="{Binding FirstPassword, Mode=TwoWay}" />
+                            <TextBlock Text="Confirm Password" />
+                            <PasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" />
                         </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="Weight" />
+                    </Border>
+                    
+                    <TextBlock Text="User Information" Margin="0,12,0,12" />
+
+                    <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
+                            Background="{StaticResource BlockBackgroundBrush}">
+                        <StackPanel>
+                            <TextBlock Text="Gender" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBox Text="{Binding Weight, Mode=TwoWay}" />
-                                <TextBlock VerticalAlignment="Center" Text="kg" />
+                                <RadioButton Content="Male" IsChecked="{Binding Path=Gender, ConverterParameter=Male, Converter={StaticResource GenderEnumToBoolConverter}, Mode=TwoWay}"/>
+                                <RadioButton Content="Female" IsChecked="{Binding Path=Gender, ConverterParameter=Female, Converter={StaticResource GenderEnumToBoolConverter}, Mode=TwoWay}" />
+                                <RadioButton Content="Other" IsChecked="{Binding Path=Gender, ConverterParameter=Other, Converter={StaticResource GenderEnumToBoolConverter}, Mode=TwoWay}" />
                             </StackPanel>
+                            <TextBlock Text="Birthday" />
+                            <toolkit:DatePicker Value="{Binding Birthdate, Mode=TwoWay}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Height" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding Height, Mode=TwoWay}" />
+                                        <TextBlock VerticalAlignment="Center" Text="cm" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Weight" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding Weight, Mode=TwoWay}" />
+                                        <TextBlock VerticalAlignment="Center" Text="kg" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
                         </StackPanel>
-                    </Grid>
+                    </Border>
                     <Button Content="Create new account" Click="Button_Click" />
                 </StackPanel>
             </ScrollViewer>

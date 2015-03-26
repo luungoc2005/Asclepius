@@ -12,6 +12,10 @@
             <GradientStop Color="#FF11853F"/>
             <GradientStop Color="#FF00E643" Offset="1"/>
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BlockBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#26FFFFFF" Offset="0"/>
+            <GradientStop Color="#19FFFFFF" Offset="1"/>
+        </LinearGradientBrush>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace Asclepius.Converters
 {
-    public class GenderEnumToBoolConverter: IValueConverter
+    public sealed class GenderEnumToBoolConverter: IValueConverter
     {
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)

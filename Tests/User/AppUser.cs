@@ -158,6 +158,14 @@ namespace Asclepius.User
             }
         }
 
+        public double BMI
+        {
+            get
+            {
+                return Math.Round(Weight * 10000 / (Height * Height), 1);
+            }
+        }
+
         public int Age
         {
             get

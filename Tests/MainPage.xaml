@@ -13,11 +13,8 @@
     shell:SystemTray.BackgroundColor="#FF11853F">
 
     <phone:PhoneApplicationPage.Resources>
+        <Converters:BMIToTextConverter x:Key="BMIToTextConverter"/>
         <Converters:ValueToProgressConverter x:Key="ValueToProgressConverter"/>
-        <LinearGradientBrush x:Key="BlockBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#26FFFFFF" Offset="0"/>
-            <GradientStop Color="#19FFFFFF" Offset="1"/>
-        </LinearGradientBrush>
     </phone:PhoneApplicationPage.Resources>
     <phone:PhoneApplicationPage.FontFamily>
         <StaticResource ResourceKey="PhoneFontFamilyNormal"/>
@@ -53,8 +50,9 @@
                                 <HyperlinkButton Content="change" Click="HyperlinkButton_Click" />
                             </StackPanel>
                             <StackPanel Margin="12,0,0,0" Grid.Column="1">
-                                <TextBlock Text="{Binding Username}" FontSize="30" />
+                                <TextBlock Text="{Binding Username}" FontSize="24" />
                                 <TextBlock Text="{Binding Description}" />
+
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Weight: " />
                                     <TextBlock Text="{Binding Weight}" />
@@ -63,10 +61,18 @@
                                     <TextBlock Text="{Binding Height}" />
                                     <TextBlock Text=" cm" />
                                 </StackPanel>
+                                
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="BMI: " />
+                                    <TextBlock Text="{Binding Path=BMI}" />
+                                    <TextBlock Text="{Binding BMI, ConverterParameter=' (\{0\})', Converter={StaticResource BMIToTextConverter}}" />
+                                </StackPanel>
+                                
                                 <TextBox Text="{Binding UserStatus, Mode=TwoWay}" />
                             </StackPanel>
                         </Grid>
                     </Border>
+
                 </StackPanel>
             </phone:PivotItem>
 

@@ -101,6 +101,7 @@
     <Compile Include="Connectivity\BluetoothConnection.cs" />
     <Compile Include="Connectivity\ClientsManager.cs" />
     <Compile Include="Connectivity\UDPClientFinder.cs" />
+    <Compile Include="Converters\BMIToTextConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\GenderEnumToBoolConverter.cs" />
     <Compile Include="Converters\ValueToProgressConverter.cs" />
