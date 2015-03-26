@@ -26,7 +26,7 @@
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <NuGetPackageImportStamp>415a05b8</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>ed757dd2</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -111,6 +111,9 @@
     </Compile>
     <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="Helpers\CaloriesCalculator.cs" />
+    <Compile Include="Helpers\Microsoft\AccelerometerHelper.cs" />
+    <Compile Include="Helpers\Microsoft\ApplicationSettingHelper.cs" />
+    <Compile Include="Helpers\Microsoft\Simple3DVector.cs" />
     <Compile Include="Helpers\NotificationsHelper.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="LoginPage.xaml.cs">
@@ -177,7 +180,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Help\LumiaSensorCoreSDK.chm" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
@@ -211,7 +213,6 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Help\REDIST.TXT" />
     <Content Include="README_FIRST.txt" />
     <Content Include="Resources\images\footsteps.png" />
     <Content Include="Resources\long run.txt" />
@@ -228,10 +229,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Lumia.Sense, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\LumiaSensorCoreSDK.1.1.1.1\lib\portable-wpa81+wp81\x86\Lumia.Sense.winmd</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
@@ -247,11 +244,4 @@
   </Target>
   -->
   <ProjectExtensions />
-  <Import Project="..\packages\LumiaSensorCoreSDK.1.1.1.1\build\wp81\LumiaSensorCoreSDK.targets" Condition="Exists('..\packages\LumiaSensorCoreSDK.1.1.1.1\build\wp81\LumiaSensorCoreSDK.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\LumiaSensorCoreSDK.1.1.1.1\build\wp81\LumiaSensorCoreSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LumiaSensorCoreSDK.1.1.1.1\build\wp81\LumiaSensorCoreSDK.targets'))" />
-  </Target>
 </Project>

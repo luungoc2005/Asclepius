@@ -15,14 +15,18 @@ namespace Asclepius.User
         //Pedometer stats
 
         [XmlIgnore]
-        public Lumia.Sense.StepCounterReading stepReading { get; set; }
+        //public Lumia.Sense.StepCounterReading stepReading { get; set; }
 
         public double Stride { get; set; } //in centimeters
         public int SurfaceGrade { get; set; }
+        public int WalkingStepCount { get; set; }
+        public int RunningStepCount { get; set; }
+        public long RunTime { get; set; }
+        public long WalkTime { get; set; }
 
         public double Distance()
         {
-            return (stepReading.WalkingStepCount + stepReading.RunningStepCount) * Stride / 2;
+            return (WalkingStepCount + RunningStepCount) * Stride / 2;
         }
 
         //Methods

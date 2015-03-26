@@ -1,5 +1,4 @@
-﻿using Lumia.Sense;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,14 +17,14 @@ namespace Asclepius.Helpers
         private NotificationsHelper()
         {
             itemsDict.Add(1,new NotifcationItem("Location disabled", "Location is disabled on this device. Please enable it from Settings",
-                async delegate () {
-                    await SenseHelper.LaunchLocationSettingsAsync();
+                delegate () {
+                    //await SenseHelper.LaunchLocationSettingsAsync();
                     itemsList.Remove(1);
                 }));
 
             itemsDict.Add(2,new NotifcationItem("Motion data disabled", "Motion data is disabled on this device. Please enable it from Settings",
-                async delegate() {
-                    await SenseHelper.LaunchSenseSettingsAsync();
+                delegate() {
+                    //await SenseHelper.LaunchSenseSettingsAsync();
                     itemsList.Remove(2);
                 }));
 

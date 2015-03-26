@@ -136,8 +136,6 @@ namespace Asclepius.Connectivity
         {
             try
             {
-                //MemoryStream ms = new MemoryStream();
-
                 while (true)
                 {
                     if (dataReader != null)
@@ -156,25 +154,6 @@ namespace Asclepius.Connectivity
                         //    ms = new MemoryStream();
                         //}
                     }
-                    ////MSG type
-                    //if (await dataReader.LoadAsync(sizeof(byte)) != sizeof(byte))
-                    //{
-                    //    //Disconnected
-                    //}
-
-                    //byte intMsgType = dataReader.ReadByte();
-
-                    ////int intLength = MsgCommon.dictMessages[intMsgType];
-                    //int intLength = sizeof(float);
-
-                    //byte[] bData = new byte[Math.Max(intLength - 1, 0)];
-
-                    //if (intLength > 0)
-                    //{
-                    //    await dataReader.LoadAsync((uint)intLength);
-
-                    //    dataReader.ReadBytes(bData);
-                    //}
                 }
             }
             catch //(Exception ex)
