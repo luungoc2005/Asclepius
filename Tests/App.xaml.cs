@@ -65,9 +65,9 @@ namespace Asclepius
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
-        private async void Application_Launching(object sender, LaunchingEventArgs e)
+        private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            await Helpers.StepCounterHelper.Instance.StartCounterAsync();
+            Helpers.StepCounterHelper.Instance.StartCounter();
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -84,14 +84,14 @@ namespace Asclepius
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
-        private async void Application_Closing(object sender, ClosingEventArgs e)
+        private void Application_Closing(object sender, ClosingEventArgs e)
         {
             try
             {
                 User.AccountsManager.Instance.SaveUser();
             }
             catch { }
-            await Helpers.StepCounterHelper.Instance.StopCounterAsync();
+            Helpers.StepCounterHelper.Instance.StopCounter();
         }
 
         // Code to execute if a navigation fails

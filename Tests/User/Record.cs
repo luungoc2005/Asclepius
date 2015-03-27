@@ -23,6 +23,7 @@ namespace Asclepius.User
         public int RunningStepCount { get; set; }
         public long RunTime { get; set; }
         public long WalkTime { get; set; }
+        public int ActivityType { get; set; } //placeholder, default 0 is walking
 
         public double Distance()
         {
