@@ -223,7 +223,7 @@ namespace Asclepius.User
 
             if (index == -1)
             {
-                Record _ret = new Record(_start, _end, 0);
+                Record _ret = new Record(_start, _end, StrideLength);
                 Records.Insert(0, _ret);
                 return _ret;
             }

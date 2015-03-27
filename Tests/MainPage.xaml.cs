@@ -19,6 +19,15 @@ namespace Asclepius
         {
             InitializeComponent();
             this.DataContext = Model;
+
+            //draw steps graph
+
+            for (int i = 0; i < 24; i++)
+            {
+                graphSteps.xAxisPoints.Add(i);
+            }
+            graphSteps.yAxisPoints.Add(10000);
+            graphSteps.DrawGraph();
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)

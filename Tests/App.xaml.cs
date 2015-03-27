@@ -80,6 +80,11 @@ namespace Asclepius
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            try
+            {
+                User.AccountsManager.Instance.SaveUser();
+            }
+            catch { }
         }
 
         // Code to execute when the application is closing (eg, user hit Back)

@@ -18,18 +18,19 @@ namespace Asclepius.User
         public int SurfaceGrade { get; set; }
         public int WalkingStepCount { get; set; }
         public int RunningStepCount { get; set; }
-        public long RunTime { get; set; }
-        public long WalkTime { get; set; }
+        public uint RunTime { get; set; }
+        public uint WalkTime { get; set; }
         public int ActivityType { get; set; } //placeholder, default 0 is walking
 
         //Constructor
         public Record() { }
 
-        public Record(DateTime _start, DateTime _end, int _type = 0)
+        public Record(DateTime _start, DateTime _end, double _stride = 0, int _type = 0)
         {
             this.StartDate = _start;
             this.EndDate = _end;
             this.ActivityType = _type;
+            this.Stride = _stride;
         }
 
         //Methods

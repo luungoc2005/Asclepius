@@ -7,9 +7,20 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="480" d:DesignWidth="700">
 
-    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
-
+    <Grid x:Name="LayoutRoot" Background="{StaticResource BlockBackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="yAxisGrid" Margin="2"></Grid>
+        <Grid x:Name="xAxisGrid" Grid.Row="1" Grid.Column="1" Margin="0,2,0,0"></Grid>
+        <Grid x:Name="graphGrid" Margin="2" Grid.Row="0" Grid.Column="1"></Grid>
+        <Border Grid.Row="0" Grid.Column="1" BorderBrush="White" BorderThickness="2,0,0,2" />
     </Grid>
 </UserControl>

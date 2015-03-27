@@ -36,6 +36,7 @@ namespace Asclepius.Models
                 user = manager.CurrentUser;
             }
             StepCounterHelper.Instance.mainModel = this;
+            Helpers.StepCounterHelper.Instance.InitializeNumbers();
         }
 
         public string Birthdate

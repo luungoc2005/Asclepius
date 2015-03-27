@@ -52,6 +52,22 @@ namespace Asclepius.Helpers
             _pollTimer.Start();
         }
 
+        public void InitializeNumbers()
+        {
+            Record _rec = GetCurrentRecord();
+            WalkTime = _rec.WalkTime;
+            RunTime = _rec.RunTime;
+
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                if (mainModel != null)
+                {
+                    mainModel.TotalSteps = (uint)_rec.RunningStepCount + (uint)_rec.WalkingStepCount;
+                    if (IsRunning) mainModel.RunningSteps = (uint)_rec.RunningStepCount;
+                }                
+            });
+        }
+
         Simple3DVector _last;
         int _samplesCount = 0;
         double[] _dsamples = new double[10];
@@ -95,11 +111,19 @@ namespace Asclepius.Helpers
 
                     if (!_isSkipping)
                     {
-                        double _weightedAverage = (double)Enumerable.Range(0, 9).Select(x => (double)(x + 2) * _dsamples[x]).Sum() / 55;
-                        //don't know why +2 works but as long as it does...
+                        //double _weightedAverage = (double)Enumerable.Range(0, 9).Select(x => (x + 2) * _dsamples[x]).Sum() / 55;
+                        ////don't know why +2 works but as long as it does...or not
+
+                        //non-LINQ alternative
+                        double _weightedAverage = 0;
+                        for (int i = 0; i < 10; i++)
+                        {
+                            _weightedAverage += (i + 1) * _dsamples[i];
+                        }
+                        _weightedAverage = _weightedAverage / 55;
                         
-                        Deployment.Current.Dispatcher.BeginInvoke(() => { if (mainModel != null) mainModel.Temperature = _weightedAverage; });
-                        if (_weightedAverage > _lastAverage && _weightedAverage < 0.92) //hardcoded threshold
+                        //Deployment.Current.Dispatcher.BeginInvoke(() => { if (mainModel != null) mainModel.Temperature = _weightedAverage; });
+                        if (_weightedAverage > _lastAverage && _weightedAverage < 0.95) //hardcoded threshold
                         {
                             OnStepDetected();
                             _isSkipping = true;
@@ -129,19 +153,39 @@ namespace Asclepius.Helpers
             _stepCount += 1;
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                if (mainModel != null) mainModel.TotalSteps += 1;
-                if (IsRunning) mainModel.RunningSteps += 1;
+                if (mainModel != null) {
+                    mainModel.TotalSteps += 1;
+                    if (IsRunning) mainModel.RunningSteps += 1;
+                }
             });
+
+            //update record
+            var _rec = GetCurrentRecord();
+            if (_rec !=null)
+            {
+                if (!IsRunning) _rec.WalkingStepCount += 1;
+                else _rec.RunningStepCount += 1;
+            }
+        }
+
+        private Record GetCurrentRecord()
+        {
+            AppUser _user = AccountsManager.Instance.CurrentUser;
+            if (_user != null)
+            {
+                Record _rec = _user.GetHourlyRecord(DateTime.Now);
+                return _rec;
+            }
+            return null;
         }
 
         DispatcherTimer _pollTimer;
 
-        void _pollTimer_Tick(object sender, EventArgs e)
+        private void _pollTimer_Tick(object sender, EventArgs e)
         {
             _changeRecord[_changeCount] = _stepCount - _lastCount;
-            _changeCount = (_changeCount > 4 ? 0 : _changeCount + 1);
 
-            if (_changeCount > 4)
+            if (_changeCount >= 4)
             {
                 double _average = Enumerable.Range(0, 4).Select(x => (double)_changeRecord[x]).Sum() / 4;
                 if (_average == 0)
@@ -160,9 +204,11 @@ namespace Asclepius.Helpers
                     IsRunning = true;
                 }
             }
+            _changeCount = (_changeCount >= 4 ? 0 : _changeCount + 1);
 
-            if (IsWalking) WalkTime += 1;
-            if (IsRunning) RunTime += 1;
+            if (IsWalking) { WalkTime += 1; }
+            if (IsRunning) { RunTime += 1; }
+
 
             _lastCount = _stepCount;
         }

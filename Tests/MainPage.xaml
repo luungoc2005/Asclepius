@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Converters="clr-namespace:Asclepius.Converters"
+    xmlns:Graph="clr-namespace:Asclepius.Graph"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
     x:Class="Asclepius.MainPage"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
@@ -38,7 +40,7 @@
             <phone:PivotItem Header="home">
                 <StackPanel>
                     <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
-                            Background="{StaticResource BlockBackgroundBrush}">
+						Background="{StaticResource BlockBackgroundBrush}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="140" />
@@ -62,26 +64,26 @@
                                     <TextBlock Text="{Binding Height}" />
                                     <TextBlock Text=" cm" />
                                 </StackPanel>
-                                
+
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="BMI: " />
-                                    <TextBlock Text="{Binding Path=BMI}" />
+                                    <TextBlock Text="{Binding BMI}" />
                                     <TextBlock Text="{Binding BMI, ConverterParameter=' (\{0\})', Converter={StaticResource BMIToTextConverter}}" />
                                 </StackPanel>
-                                
+
                                 <TextBox Text="{Binding UserStatus, Mode=TwoWay}" />
                             </StackPanel>
                         </Grid>
                     </Border>
 
                     <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
-                            Background="{StaticResource BlockBackgroundBrush}" Margin="0,12,0,0">
+						Background="{StaticResource BlockBackgroundBrush}" Margin="0,12,0,0">
                         <StackPanel>
-                            <ListBox Height="100" x:Name="lbDevices" DisplayMemberPath="Name" SelectedIndex="{Binding Path=SelectedDevice, Mode=TwoWay}" />
+                            <ListBox Height="100" x:Name="lbDevices" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedDevice, Mode=TwoWay}" />
                             <StackPanel Orientation="Horizontal">
                                 <Button Content="Find Devices" Click="Button_Click" />
                                 <Button Content="Connect" Click="Button_Click_1" />
-                                <TextBlock Text="{Binding Path=BytesReceived}" />
+                                <TextBlock Text="{Binding BytesReceived}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Temperature: " />
@@ -100,7 +102,7 @@
                 <StackPanel>
                     <TextBlock Text="Today" />
                     <Border Margin="0,12,0,0" BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="0,12" 
-                            Background="{StaticResource BlockBackgroundBrush}">
+						Background="{StaticResource BlockBackgroundBrush}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -148,6 +150,11 @@
                             <ProgressBar Grid.Row="1" Grid.Column="1" />
 
                         </Grid>
+                    </Border>
+
+                    <TextBlock Margin="0,12,0,0" Text="History" />
+                    <Border Margin="0,12,0,0" BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" Background="{StaticResource BlockBackgroundBrush}">
+                        <Graph:GraphControl x:Name="graphSteps" FontSize="12" Height="180" />
                     </Border>
                 </StackPanel>
             </phone:PivotItem>
