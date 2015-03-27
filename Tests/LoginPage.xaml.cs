@@ -42,6 +42,13 @@ namespace Asclepius
             if (Helpers.AppSettings.DefaultPassword != "") Button_Click(this, new RoutedEventArgs());
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to quit?", "Confirmation", MessageBoxButton.OKCancel) == MessageBoxResult.OK) {
+                Application.Current.Terminate();
+            }
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             string parameter = string.Empty;

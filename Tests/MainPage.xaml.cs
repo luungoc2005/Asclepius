@@ -8,12 +8,14 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Text;
+using System.Windows.Threading;
 
 namespace Asclepius
 {
     public partial class MainPage : PhoneApplicationPage
     {
         Models.MainPageModel Model = new Models.MainPageModel();
+        DispatcherTimer _updateTimer;
 
         public MainPage()
         {
@@ -27,7 +29,36 @@ namespace Asclepius
                 graphSteps.xAxisPoints.Add(i);
             }
             graphSteps.yAxisPoints.Add(10000);
-            graphSteps.DrawGraph();
+            graphSteps.xAxisMaxCount = 24;
+
+            graphSteps.DrawAxis();
+
+            _updateTimer = new DispatcherTimer();
+            _updateTimer.Interval = TimeSpan.FromSeconds(5);
+            _updateTimer.Tick += _updateTimer_Tick;
+
+            _updateTimer_Tick(this, new EventArgs());
+        }
+
+        void _updateTimer_Tick(object sender, EventArgs e)
+        {
+            if (User.AccountsManager.Instance.CurrentUser != null)
+            {
+                graphSteps.DataSource = User.AccountsManager.Instance.CurrentUser.GetAccumulatedDailyRecord(DateTime.Now);
+                graphSteps.DrawGraph();
+            }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            _updateTimer.Stop();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            _updateTimer.Start();
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)

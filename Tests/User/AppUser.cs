@@ -214,7 +214,7 @@ namespace Asclepius.User
 
         #region "Records"
 
-        public Record GetHourlyRecord(DateTime _hour)
+        public Record GetHourlyRecord(DateTime _hour, bool nullIfNotFound=false)
         {
             DateTime _start=new DateTime(_hour.Year,_hour.Month,_hour.Day,_hour.Hour,0,0);
             DateTime _end = _start.AddHours(1);
@@ -223,14 +223,44 @@ namespace Asclepius.User
 
             if (index == -1)
             {
-                Record _ret = new Record(_start, _end, StrideLength);
-                Records.Insert(0, _ret);
-                return _ret;
+                if (!nullIfNotFound)
+                {
+                    Record _ret = new Record(_start, _end, StrideLength);
+                    Records.Insert(0, _ret);
+                    return _ret;
+                }
+                else return null;
             }
             else
             {
                 return Records[index];
             }
+        }
+
+        public List<double> GetAccumulatedDailyRecord(DateTime _day)
+        {
+            double[] _ret = new double[24];
+            List<double> _retList = new List<double>();
+            DateTime _start = new DateTime(_day.Year, _day.Month, _day.Day, 0, 0, 0);
+
+            Record firstRecord = GetHourlyRecord(_start, true);
+            _ret[0] = (firstRecord == null ? 0 : firstRecord.WalkingStepCount + firstRecord.RunningStepCount);
+
+            int _cutoff = 0;
+            for (int i = 1; i < 24; i++)
+            {
+                _start = _start.AddHours(1);
+                Record current = GetHourlyRecord(_start, true);
+                _ret[i] = _ret[i - 1] += (current == null ? 0 : current.WalkingStepCount + current.RunningStepCount);
+                if (current != null) _cutoff = i;
+            }
+
+            for (int i = 0; i < _cutoff + 1; i++)
+            {
+                _retList.Add(_ret[i]);
+            }
+            
+            return _retList;
         }
 
         #endregion

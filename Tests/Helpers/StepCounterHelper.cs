@@ -54,17 +54,46 @@ namespace Asclepius.Helpers
 
         public void InitializeNumbers()
         {
-            Record _rec = GetCurrentRecord();
-            WalkTime = _rec.WalkTime;
-            RunTime = _rec.RunTime;
+            AppUser user = User.AccountsManager.Instance.CurrentUser;
+            if (user == null) return;
+
+            DateTime _day = DateTime.Now;
+            DateTime _start = new DateTime(_day.Year, _day.Month, _day.Day, 0, 0, 0);
+
+            Record firstRecord = user.GetHourlyRecord(_start, true);
+
+            uint _totalSteps = 0; uint _runningSteps = 0;
+            WalkTime = 0; RunTime = 0;
+
+            if (firstRecord != null)
+            {
+                WalkTime = firstRecord.WalkTime;
+                RunTime = firstRecord.RunTime;
+                _totalSteps = (uint)firstRecord.WalkingStepCount + (uint)firstRecord.RunningStepCount;
+                _runningSteps = (uint)firstRecord.RunningStepCount;
+            }
+
+            for (int i = 1; i < 24; i++)
+            {
+                _start = _start.AddHours(1);
+                Record current = user.GetHourlyRecord(_start, true);
+
+                if (current != null)
+                {
+                    WalkTime += current.WalkTime;
+                    RunTime += current.RunTime;
+                    _totalSteps += (uint)current.WalkingStepCount + (uint)current.RunningStepCount;
+                    _runningSteps += (uint)current.RunningStepCount;
+                }
+            }
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 if (mainModel != null)
                 {
-                    mainModel.TotalSteps = (uint)_rec.RunningStepCount + (uint)_rec.WalkingStepCount;
-                    if (IsRunning) mainModel.RunningSteps = (uint)_rec.RunningStepCount;
-                }                
+                    mainModel.TotalSteps = _totalSteps;
+                    mainModel.RunningSteps = _runningSteps;
+                }
             });
         }
 

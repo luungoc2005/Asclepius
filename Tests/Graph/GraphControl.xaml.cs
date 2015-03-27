@@ -81,24 +81,26 @@ namespace Asclepius.Graph
             Deployment.Current.Dispatcher.BeginInvoke(() => ExecuteDrawGraph());
         }
 
+        public void DrawAxis()
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() => { DrawXAxis(); DrawYAxis(); });
+        }
+
         private void ExecuteDrawGraph()
         {
-            DrawXAxis();
-            DrawYAxis();
-
             graphGrid.Children.Clear();
 
             if (DataSource == null || DataSource.Count <= 1) return;
-            int count = (int)GetMaximumX();
+            double count = GetMaximumX();
             double max = GetMaximumY();
 
-            for (int i = 0; i < count - 1; i++)
+            for (int i = 0; i < DataSource.Count - 1; i++)
             {
                 var l = new Line();
-                l.X1 = (i / count) * graphGrid.ActualWidth;
-                l.X2 = ((i + 1) / count) * graphGrid.ActualWidth;
-                l.Y1 = (DataSource[i] / max) * graphGrid.ActualHeight;
-                l.Y2 = (DataSource[i + 1] / max) * graphGrid.ActualHeight;
+                l.X1 = ((double)i / count) * graphGrid.ActualWidth;
+                l.X2 = ((double)(i + 1) / count) * graphGrid.ActualWidth;
+                l.Y1 = (1 - DataSource[i] / max) * graphGrid.ActualHeight;
+                l.Y2 = (1 - DataSource[i + 1] / max) * graphGrid.ActualHeight;
                 l.StrokeThickness = 1;
                 l.Stroke = new SolidColorBrush(Colors.White);
                 graphGrid.Children.Add(l);
@@ -126,14 +128,16 @@ namespace Asclepius.Graph
         private void DrawYAxis()
         {
             yAxisGrid.Children.Clear();
+            lineGrid.Children.Clear();
+
             double _max = GetMaximumY();
             double _datamax = (DataSource == null || DataSource.Count == 0) ? 0 : DataSource.Max();
-            int _yCount = (yAxisPoints == null ? -1 : yAxisPoints.Count);
+            int _yCount = (yAxisPoints == null ? 0 : yAxisPoints.Count);
 
             if (_max > 0)
             {
                 //draw max of data
-                if (_datamax>0 && _datamax>_max)
+                if (_datamax>0 && _datamax==_max)
                 {
                     AddTextBlock(yAxisGrid, _datamax, 0, 0).VerticalAlignment = VerticalAlignment.Top;
                 }
@@ -142,7 +146,7 @@ namespace Asclepius.Graph
                     if (_max > 0)
                     {
                         AddTextBlock(yAxisGrid, _max, 0, 0).VerticalAlignment = VerticalAlignment.Top;
-                        _yCount -= 1;
+                        //_yCount -= 1;
                     }
                 }
 
@@ -151,7 +155,19 @@ namespace Asclepius.Graph
                 {
                     for (int i = 0; i <= _yCount - 1; i++)
                     {
-                        AddTextBlock(yAxisGrid, yAxisPoints[i], 0, (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight);
+                        AddTextBlock(yAxisGrid, yAxisPoints[i], 0, (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight - (FontSize/2));
+
+                        //draw horizontal lines
+                        var l = new Line();
+                        l.X1 = 0;
+                        l.X2 = graphGrid.ActualWidth;
+                        l.Y1 = (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight;
+                        l.Y2 = l.Y1;
+                        l.StrokeThickness = 1;
+                        l.Stroke = new SolidColorBrush(Colors.White);
+                        l.StrokeDashArray.Add(3);
+                        l.StrokeDashArray.Add(3);
+                        lineGrid.Children.Add(l);
                     }
                 }
             }
