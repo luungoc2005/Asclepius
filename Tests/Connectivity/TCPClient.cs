@@ -2,60 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
 using Windows.Networking.Sockets;
+using Windows.Storage.Streams;
 
 namespace Asclepius.Connectivity
 {
     class TCPClient
     {
-
         #region "Common variables"
 
         int intPort = 8019;
         string strHostName = "";
         StreamSocket _tcpClient;
 
+        DataWriter dataWriter;
+        DataReader dataReader;
+
+        Task tskMessages;
+        CancellationTokenSource objCancelSource;
+        CancellationToken objCancelToken;
         #endregion
-
-        #region "Shared methods"
-        //http://developer.nokia.com/community/wiki/How_to_get_the_device_IP_addresses_on_Windows_Phone
-        public static string LocalIPAddress()
-        {
-            List<string> ipAddresses = new List<string>();
-            var hostnames = NetworkInformation.GetHostNames();
-            foreach (var hn in hostnames)
-            {
-                //IanaInterfaceType == 71 => Wifi
-                //IanaInterfaceType == 6 => Ethernet (Emulator)
-                if (hn.IPInformation != null &&
-                    (hn.IPInformation.NetworkAdapter.IanaInterfaceType == 71
-                    || hn.IPInformation.NetworkAdapter.IanaInterfaceType == 6))
-                {
-                    string ipAddress = hn.DisplayName;
-                    ipAddresses.Add(ipAddress);
-                }
-            }
-
-            if (ipAddresses.Count < 1)
-            {
-                return null;
-            }
-            else if (ipAddresses.Count == 1)
-            {
-                return ipAddresses[0];
-            }
-            else
-            {
-                //if multiple suitable address were found use the last one
-                //(regularly the external interface of an emulated device)
-                return ipAddresses[ipAddresses.Count - 1];
-            }
-        }
-        #endregion
-
+        
         #region "Class properties"
 
         public int Port
@@ -86,6 +57,8 @@ namespace Asclepius.Connectivity
 
         #region "Public methods"
 
+        public bool IsConnected() { return (_tcpClient == null); }
+
         public async void Connect(string strHost, int intPort)
         {
             try
@@ -93,6 +66,13 @@ namespace Asclepius.Connectivity
                 strHostName = strHost;
                 _tcpClient = new StreamSocket();
                 await _tcpClient.ConnectAsync(new HostName(strHost), intPort.ToString());
+
+                dataWriter = new DataWriter(_tcpClient.OutputStream);
+                dataReader = new DataReader(_tcpClient.InputStream);
+
+                objCancelSource = new CancellationTokenSource();
+                objCancelToken = objCancelSource.Token;
+                tskMessages = Task.Factory.StartNew(() => ReceiveThread(), objCancelSource.Token);
 
                 //if (Connected != null) Connected(_tcpClient);
             }
@@ -109,7 +89,90 @@ namespace Asclepius.Connectivity
 
         #endregion
 
+        public void Close()
+        {
+            try
+            {
+                if (IsConnected())
+                {
+                    objCancelSource.Cancel();
+                    dataWriter.Dispose();
+                    dataReader.Dispose();
+
+                    //Cancel timeout
+                    tskMessages.Wait(TimeSpan.FromMilliseconds(500));
+
+                    _tcpClient.Dispose();
+                    _tcpClient = null;
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        public async void SendBytes(byte[] buffer)
+        {
+            if ((_tcpClient != null) && (dataWriter != null))
+            {
+                dataWriter.WriteBytes(buffer);
+                try
+                {
+                    await dataWriter.StoreAsync();
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+
         #region "Private methods"
+
+        private async void ReceiveThread()
+        {
+            if (_tcpClient != null)
+            {
+                while (true)
+                {
+                    Thread.Sleep(10);
+
+                    objCancelToken.ThrowIfCancellationRequested();
+
+                    try
+                    {
+                        //MSG type
+                        if (await dataReader.LoadAsync(sizeof(byte)) != sizeof(byte))
+                        {
+                            //Disconnected
+                        }
+
+                        byte intMsgType = dataReader.ReadByte();
+
+                        //int intLength = MsgCommon.dictMessages[intMsgType];
+
+                        byte[] bData = new byte[Math.Max(intLength - 1, 0)];
+
+                        if (intLength > 0)
+                        {
+                            await dataReader.LoadAsync((uint)intLength);
+
+                            dataReader.ReadBytes(bData);
+                        }
+
+                        //OnMessageReceived.Invoke(intMsgType, bData);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
 
         #endregion
         
