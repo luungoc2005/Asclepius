@@ -14,9 +14,6 @@ namespace Asclepius.User
         
         //Pedometer stats
 
-        [XmlIgnore]
-        //public Lumia.Sense.StepCounterReading stepReading { get; set; }
-
         public double Stride { get; set; } //in centimeters
         public int SurfaceGrade { get; set; }
         public int WalkingStepCount { get; set; }
@@ -25,9 +22,14 @@ namespace Asclepius.User
         public long WalkTime { get; set; }
         public int ActivityType { get; set; } //placeholder, default 0 is walking
 
-        public double Distance()
+        //Constructor
+        public Record() { }
+
+        public Record(DateTime _start, DateTime _end, int _type = 0)
         {
-            return (WalkingStepCount + RunningStepCount) * Stride / 2;
+            this.StartDate = _start;
+            this.EndDate = _end;
+            this.ActivityType = _type;
         }
 
         //Methods
@@ -42,6 +44,12 @@ namespace Asclepius.User
         }
 
         //Converters
+
+        public double Distance()
+        {
+            return (WalkingStepCount + RunningStepCount) * Stride / 2;
+        }
+
         public double TimeInMinutes()
         {
             return (EndDate-StartDate).TotalMinutes;

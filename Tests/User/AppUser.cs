@@ -212,6 +212,29 @@ namespace Asclepius.User
 
         #endregion
 
+        #region "Records"
+
+        public Record GetHourlyRecord(DateTime _hour)
+        {
+            DateTime _start=new DateTime(_hour.Year,_hour.Month,_hour.Day,_hour.Hour,0,0);
+            DateTime _end = _start.AddHours(1);
+
+            int index = Records.FindIndex((Record r) => { return (r.StartDate==_start && r.EndDate==_end); });
+
+            if (index == -1)
+            {
+                Record _ret = new Record(_start, _end, 0);
+                Records.Insert(0, _ret);
+                return _ret;
+            }
+            else
+            {
+                return Records[index];
+            }
+        }
+
+        #endregion
+
         #region "Social"
 
         public List<string> Friends;
