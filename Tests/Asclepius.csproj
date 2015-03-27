@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="Connectivity\BluetoothConnection.cs" />
     <Compile Include="Connectivity\ClientsManager.cs" />
+    <Compile Include="Connectivity\UDPClient.cs" />
     <Compile Include="Connectivity\UDPClientFinder.cs" />
     <Compile Include="Converters\BMIToTextConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />

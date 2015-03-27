@@ -79,7 +79,7 @@
                     <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
 						Background="{StaticResource BlockBackgroundBrush}" Margin="0,12,0,0">
                         <StackPanel>
-                            <ListBox Height="100" x:Name="lbDevices" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedDevice, Mode=TwoWay}" />
+                            <ListBox x:Name="lbDevices" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedDevice, Mode=TwoWay}" />
                             <StackPanel Orientation="Horizontal">
                                 <Button Content="Find Devices" Click="Button_Click" />
                                 <Button Content="Connect" Click="Button_Click_1" />

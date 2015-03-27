@@ -29,6 +29,7 @@ namespace Asclepius
                 graphSteps.xAxisPoints.Add(i);
             }
             graphSteps.yAxisPoints.Add(10000);
+            graphSteps.yAxisPoints.Add(5000);
             graphSteps.xAxisMaxCount = 24;
 
             graphSteps.DrawAxis();

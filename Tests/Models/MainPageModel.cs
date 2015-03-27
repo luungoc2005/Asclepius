@@ -212,6 +212,7 @@ namespace Asclepius.Models
             {
                 _totalSteps = value;
                 OnPropertyChanged("TotalSteps");
+                OnPropertyChanged("Distance");
             }
         }
         public uint RunningSteps
@@ -231,12 +232,7 @@ namespace Asclepius.Models
         {
             get
             {
-                return _Distance;
-            }
-            set
-            {
-                _Distance = value;
-                OnPropertyChanged("Distance");
+                return (User.AccountsManager.Instance.CurrentUser.Stride * TotalSteps / 2);
             }
         }
 

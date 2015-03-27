@@ -26,9 +26,9 @@ namespace Asclepius.Connectivity
 
         private StreamSocket socket;
 
-        private DataWriter dataWriter;
+        private StreamWriter dataWriter;
 
-        private DataReader dataReader;
+        private StreamReader dataReader;
 
         private BackgroundWorker dataReadWorker;
 
@@ -87,8 +87,8 @@ namespace Asclepius.Connectivity
                     if (rfcommService != null)
                     {
                         await socket.ConnectAsync(rfcommService.ConnectionHostName, rfcommService.ConnectionServiceName, SocketProtectionLevel.BluetoothEncryptionAllowNullAuthentication);
-                        dataReader = new DataReader(socket.InputStream);
-                        dataWriter = new DataWriter(socket.OutputStream);
+                        dataReader = new StreamReader(socket.InputStream.AsStreamForRead());
+                        dataWriter = new StreamWriter(socket.OutputStream.AsStreamForWrite());
                         dataReadWorker.RunWorkerAsync();
                     }
                     else
@@ -110,22 +110,23 @@ namespace Asclepius.Connectivity
         
         public async Task<bool> SendCommand(byte[] buffer)
         {
-            if (dataWriter != null)
-            {
-                dataWriter.WriteBytes(buffer);
+            //if (dataWriter != null)
+            //{
+            //    dataWriter.WriteBytes(buffer);
 
-                try
-                {
-                    await dataWriter.StoreAsync();
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                    throw;
-                }
-            }
-            else return false;
+            //    try
+            //    {
+            //        await dataWriter.StoreAsync();
+            //        return true;
+            //    }
+            //    catch
+            //    {
+            //        return false;
+            //        throw;
+            //    }
+            //}
+            //else return false;
+            return true;
         }
 
         #endregion
@@ -140,10 +141,20 @@ namespace Asclepius.Connectivity
                 {
                     if (dataReader != null)
                     {
-                        await dataReader.LoadAsync(sizeof(float) * 2);
-                        if (MessageReceived != null) {
-                            Deployment.Current.Dispatcher.BeginInvoke(() => { MessageReceived((float)dataReader.ReadSingle(), (float)dataReader.ReadSingle()); });
+                        try
+                        {
+                            //await dataReader.LoadAsync(sizeof(float)*2);
+                            //if (MessageReceived != null)
+                            //{
+                            //    Deployment.Current.Dispatcher.BeginInvoke(() => { MessageReceived((float)dataReader.ReadSingle(), (float)dataReader.ReadSingle()); });
+                            //}
+                            float num1; float num2;
+                            num1 = Convert.ToSingle(dataReader.ReadLine());
+                            num2 = Convert.ToSingle(dataReader.ReadLine());
+                            
+                            Deployment.Current.Dispatcher.BeginInvoke(() => { MessageReceived(num1, num2); });
                         }
+                        catch { }
                         //ms.WriteByte(dataReader.ReadByte());
 
                         //if (ms.Length==sizeof(float) *2) {
