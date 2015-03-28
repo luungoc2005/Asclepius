@@ -180,11 +180,11 @@ namespace Asclepius.Graph
             if (DataSource == null || DataSource.Count == 0)
             {
                 return (yAxisPoints == null || yAxisPoints.Count == 0) ? 0 :
-                    yAxisMultiple == 0 ? yAxisPoints.Max() : Math.Ceiling(yAxisPoints.Max() / yAxisMultiple) * yAxisMultiple;
+                    yAxisMultiple == 0 ? Math.Ceiling(yAxisPoints.Max()) : Math.Ceiling(yAxisPoints.Max() / yAxisMultiple) * yAxisMultiple;
             }
             else
             {
-                return Math.Max(DataSource.Max(), yAxisMultiple == 0 ? yAxisPoints.Max() : Math.Ceiling(yAxisPoints.Max() / yAxisMultiple) * yAxisMultiple);
+                return Math.Ceiling(Math.Max(DataSource.Max(), yAxisMultiple == 0 ? yAxisPoints.Max() : Math.Ceiling(yAxisPoints.Max() / yAxisMultiple) * yAxisMultiple));
             }
         }
 

@@ -53,6 +53,7 @@ namespace Asclepius
             {
                 graphSteps.DataSource = User.AccountsManager.Instance.CurrentUser.GetAccumulatedDailyRecord(DateTime.Now);
                 graphSteps.DrawGraph();
+                graphSteps.DrawAxis();
             }
         }
 
@@ -107,8 +108,8 @@ namespace Asclepius
 
         private void _bluetooth_MessageReceived(float num1, float num2)
         {
-            Model.Temperature = Convert.ToDouble(num1);
-            Model.HeartRate = Convert.ToDouble(num2);
+            Model.Temperature = Math.Round(Convert.ToDouble(num1),2);
+            Model.HeartRate = Math.Round(Convert.ToDouble(num2));
             Model.BytesReceived += sizeof(float) * 2;
 
             updateHeartRate(num2);
@@ -122,6 +123,7 @@ namespace Asclepius
                 if (heartRateHistory.Count >= 30) heartRateHistory.RemoveAt(0);
                 heartRateHistory.Add(Convert.ToDouble(rate));
                 graphHeart.DataSource = heartRateHistory;
+                graphHeart.DrawAxis();
                 graphHeart.DrawGraph();
             }
         }
