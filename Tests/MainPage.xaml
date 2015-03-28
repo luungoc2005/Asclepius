@@ -16,6 +16,7 @@
     shell:SystemTray.BackgroundColor="#FF11853F">
 
     <phone:PhoneApplicationPage.Resources>
+        <Converters:BMIToImageConverter x:Key="BMIToImageConverter"/>
         <Converters:DeviceToTextConverter x:Key="DeviceToTextConverter"/>
         <Converters:BMIToTextConverter x:Key="BMIToTextConverter"/>
         <Converters:ValueToProgressConverter x:Key="ValueToProgressConverter"/>
@@ -36,10 +37,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <phone:Pivot Title="ASCLEPIUS">
+        <phone:Pivot Title="ASCLEPIUS" SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
             <phone:PivotItem Header="home">
-                <StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Visible" Height="600">
+                    <StackPanel ScrollViewer.VerticalScrollBarVisibility="Visible">
                     <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
 						Background="{StaticResource BlockBackgroundBrush}">
                         <Grid>
@@ -48,45 +50,65 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <StackPanel Width="135" Grid.Column="0">
-                                <Border Width="128" Height="128" BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="1" BorderThickness="1" Background="{StaticResource PhoneInactiveBrush}">
-                                    <Image Width="128" Height="128" Source="{Binding UserAvatar}" />
+                                <Border Width="128" Height="128" BorderBrush="{StaticResource AvatarChromeBrush}" BorderThickness="2" CornerRadius="2">
+                                    <Image Width="128" Height="128" Source="{Binding UserAvatar}" Stretch="Fill" />
                                 </Border>
                                 <HyperlinkButton Content="change" Click="HyperlinkButton_Click" />
                             </StackPanel>
                             <StackPanel Margin="12,0,0,0" Grid.Column="1">
                                 <TextBlock Text="{Binding Username}" FontSize="24" />
-                                <TextBlock Text="{Binding Description}" />
+                                    <TextBlock Text="{Binding Description}" />
 
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Weight: " />
-                                    <TextBlock Text="{Binding Weight}" />
-                                    <TextBlock Text=" kg" />
-                                    <TextBlock Text="Height: " Margin="12,0,0,0" />
-                                    <TextBlock Text="{Binding Height}" />
-                                    <TextBlock Text=" cm" />
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="BMI: " />
-                                    <TextBlock Text="{Binding BMI}" />
-                                    <TextBlock Text="{Binding BMI, ConverterParameter=' (\{0\})', Converter={StaticResource BMIToTextConverter}}" />
-                                </StackPanel>
-
-                                <TextBox Text="{Binding UserStatus, Mode=TwoWay}" />
+                                    <TextBox Text="{Binding UserStatus, Mode=TwoWay}" Margin="0,30,0,0" />
                             </StackPanel>
                         </Grid>
                     </Border>
 
-                    <TextBlock Margin="0,12,0,0" Text="Accessory" />
+                        <Grid Margin="0,12,0,0">
+                            <TextBlock Text="BMI" VerticalAlignment="Bottom" />
+                            <HyperlinkButton HorizontalAlignment="Right" Content="what is this?" TargetName="_blank" NavigateUri="http://en.wikipedia.org/wiki/Body_mass_index"></HyperlinkButton>
+                        </Grid>
+                        <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
+						Background="{StaticResource BlockBackgroundBrush}" Margin="0,12,0,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.8*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Width="150" Height="150" Grid.Column="0" Source="{Binding Path=BMI, Converter={StaticResource BMIToImageConverter}}" />
+                                <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Weight: " />
+                                        <TextBlock Text="{Binding Weight}" />
+                                        <TextBlock Text=" kg" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Height: " />
+                                        <TextBlock Text="{Binding Height}" />
+                                        <TextBlock Text=" cm" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center">
+                                    <TextBlock Text="BMI" FontSize="30" />
+                                    <TextBlock Text="{Binding BMI}" FontSize="56" />
+                                    <TextBlock Text="{Binding BMI, ConverterParameter=' (\{0\})', Converter={StaticResource BMIToTextConverter}}" />
+                                </StackPanel>
+                                <Image HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="UniformToFill"/>
+                            </Grid>
+                        </Border>
+
+                        <TextBlock Margin="0,12,0,0" Text="Accessory" />
                     <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
 						Background="{StaticResource BlockBackgroundBrush}" Margin="0,12,0,0">
                         <StackPanel>
-                            <ListBox x:Name="lbDevices" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedDevice, Mode=TwoWay}" />
-                            <StackPanel Orientation="Horizontal">
+                            <ListBox x:Name="lbDevices" Visibility="Collapsed" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedDevice, Mode=TwoWay}" />
+                            <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
                                 <Button Content="Find Devices" Click="Button_Click" />
                                 <Button Content="Connect" Click="Button_Click_1" />
-                                <TextBlock Text="{Binding BytesReceived}" Visibility="Collapsed" />
+                                <TextBlock Text="{Binding BytesReceived}" />
                             </StackPanel>
+                            <HyperlinkButton x:Name="connectBtn" Content="Connect to Accessory" Click="HyperlinkButton_Click_1"></HyperlinkButton>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Temperature: " />
                                 <TextBlock Text="{Binding Temperature}" />
@@ -100,13 +122,14 @@
                         </StackPanel>
                     </Border>
                 </StackPanel>
+                </ScrollViewer>
             </phone:PivotItem>
 
             <phone:PivotItem Header="status">
-                <ScrollViewer VerticalScrollBarVisibility="Visible" Height="600">
+                <ScrollViewer VerticalScrollBarVisibility="Visible" Height="531" VerticalAlignment="Top">
                 <StackPanel ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <toolkit:ToggleSwitch HorizontalAlignment="Right" Content="Enable Sharing " />                    
-                    <TextBlock Text="Today" />
+                    <TextBlock Text="{Binding Path=DayText}" />
                     <Border Margin="0,12,0,0" BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="0,12" 
 						Background="{StaticResource BlockBackgroundBrush}">
                         <Grid>
@@ -171,11 +194,34 @@
             <phone:PivotItem Header="friends">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <toolkit:ToggleSwitch HorizontalAlignment="Right" Content="Enable Discovery " />
+                        <toolkit:ToggleSwitch HorizontalAlignment="Right" Content="Enable Discovery " Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" />
+                        <ListBox x:Name="listFriends" HorizontalContentAlignment="Stretch" SelectedIndex="{Binding Path=SelectedAccount, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border HorizontalAlignment="Stretch" Padding="5" BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource BlockBackgroundBrush}" CornerRadius="3">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="128" Height="128" Source="{Binding Path=UserAvatar, Mode=OneWay}" />
+                                            <TextBlock Text="{Binding Path=Username}" Margin="12,0,12,0" FontSize="30" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
                     </StackPanel>
                 </StackPanel>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
 
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Default" Opacity="0.5" IsMenuEnabled="True" IsVisible="True">
+            <shell:ApplicationBarIconButton IconUri="Resources/images/back.png" Text="back" Click="ApplicationBarIconButton_Click_Back" />
+            <shell:ApplicationBarIconButton IconUri="Resources/images/next.png" Text="next" Click="ApplicationBarIconButton_Click_Next" IsEnabled="False" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

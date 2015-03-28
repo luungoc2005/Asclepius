@@ -13,6 +13,7 @@ using Windows.Storage.Streams;
 using System.IO;
 using System.Windows.Media.Imaging;
 using Windows.Devices.Enumeration;
+using System.Globalization;
 
 namespace Asclepius.Models
 {
@@ -205,7 +206,7 @@ namespace Asclepius.Models
         {
             get
             {
-                return _totalSteps;
+                return _day == 0 ? _totalSteps : (uint)selectedTotalSteps;
             }
             set
             {
@@ -220,12 +221,14 @@ namespace Asclepius.Models
         {
             get
             {
-                return _runningSteps;
+                return _day == 0 ? _runningSteps : (uint)selectedRunningSteps;
             }
             set
             {
                 _runningSteps = value;
                 OnPropertyChanged("RunningSteps");
+                OnPropertyChanged("CaloriesBurned");
+                OnPropertyChanged("Distance");
             }
         }
 
@@ -251,42 +254,6 @@ namespace Asclepius.Models
                 return Math.Round((0.0251 * KPH * KPH * KPH - 0.2157 * KPH * KPH + 0.7888 * KPH + 1.2957) * Weight * Time);
             }
         }
-
-        //[System.ComponentModel.DefaultValue(-1)]
-        //public int SelectedDevice { get; set; }
-
-        //public List<string> DevicesList
-        //{
-        //    get
-        //    {
-        //        return (_bluetooth == null ? null : _bluetooth.listNames);
-        //    }
-        //    set
-        //    {
-        //        _bluetooth.listNames = value;
-        //        OnPropertyChanged("DevicesList");
-        //    }
-        //}
-
-        //public async void RefreshDeviceList()
-        //{
-        //    await _bluetooth.EnumerateDevices();
-        //    OnPropertyChanged("DevicesList");
-        //    //try
-        //    //{
-        //    //    _bluetooth.Connect(_bluetooth.listDevices[0]);
-        //    //}
-        //    //catch { }
-        //}
-
-        //public void ConnectToSelected()
-        //{
-        ////    if (SelectedDevice >= 0)
-        ////    {
-        ////        _bluetooth.Connect(_bluetooth.listDevices[SelectedDevice]);
-        ////        _bluetooth.MessageReceived += _bluetooth_MessageReceived;
-        ////    }
-        //}
 
         double _temperature;
         double _heartRate;
@@ -328,6 +295,50 @@ namespace Asclepius.Models
             {
                 _bytes = value;
                 OnPropertyChanged("BytesReceived");
+            }
+        }
+
+        int _day = 0;
+        public int SelectedDay
+        {
+            get
+            {
+                return _day;
+            }
+            set
+            {
+                _day = value;
+                //day changing
+                if (_day != 0)
+                {
+                    List<Record> tempList = manager.CurrentUser.GetDailyRecord(DateTime.Now - TimeSpan.FromDays(_day));
+                    selectedTotalSteps = tempList.Sum((Record r) => { return r.WalkingStepCount + r.RunningStepCount; });
+                    selectedRunningSteps = tempList.Sum((Record r) => { return r.RunningStepCount; });
+                }
+                OnPropertyChanged(null);
+            }
+        }
+
+        private int selectedTotalSteps;
+        private int selectedRunningSteps;
+
+        public string DayText
+        {
+            get
+            {
+                CultureInfo ci = new CultureInfo("en-GB");
+
+                string format = "D";
+
+                if (_day == 0)
+                    return "Today";
+                else if (_day == 1)
+                    return "Yesterday";
+                else
+                {
+                    DateTime time = DateTime.Now - TimeSpan.FromDays(_day);
+                    return time.ToString(format, ci);
+                }
             }
         }
 

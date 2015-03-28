@@ -37,7 +37,7 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel>
-                <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=ListAccounts}" SelectedIndex="{Binding Path=SelectedAccount, Mode=TwoWay}" SelectionChanged="ListBox_SelectionChanged">
+                <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=ListAccounts}" SelectedIndex="{Binding Path=SelectedAccount, Mode=TwoWay}" DoubleTap="ListBox_DoubleTap">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border HorizontalAlignment="Stretch" Padding="5" BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource BlockBackgroundBrush}" CornerRadius="3">

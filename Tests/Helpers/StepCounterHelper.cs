@@ -19,10 +19,7 @@ namespace Asclepius.Helpers
 
         private AccelerometerHelper _accelerometer = AccelerometerHelper.Instance;
 
-        private uint _todayWalkSteps;
-        private uint _todayRunSteps;
-        private uint _todayWalkTime;
-        private uint _todayRunTime;
+        uint _totalSteps = 0; uint _runningSteps = 0;
 
         private StepCounterHelper()
         {
@@ -67,7 +64,6 @@ namespace Asclepius.Helpers
 
             Record firstRecord = user.GetHourlyRecord(_start, true);
 
-            uint _totalSteps = 0; uint _runningSteps = 0;
             WalkTime = 0; RunTime = 0;
 
             if (firstRecord != null)
@@ -186,12 +182,14 @@ namespace Asclepius.Helpers
         private void OnStepDetected()
         {
             _stepCount += 1;
+            _totalSteps += 1;
+            if (IsRunning) _runningSteps += 1;
+
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                if (mainModel != null) {
-                    mainModel.TotalSteps += 1;
-                    if (IsRunning) mainModel.RunningSteps += 1;
-
+                if (mainModel != null) {                    
+                    mainModel.TotalSteps = _totalSteps;
+                    mainModel.RunningSteps = _runningSteps;
                     mainModel.WalkTime = WalkTime;
                     mainModel.RunTime = RunTime;
                 }

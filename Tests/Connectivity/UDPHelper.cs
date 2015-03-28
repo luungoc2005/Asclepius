@@ -4,17 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Asclepius.User;
+using System.ComponentModel;
 
 namespace Asclepius.Connectivity
 {
-    class UDPHelper
+    public class UDPHelper : INotifyPropertyChanged
     {
         private static volatile UDPHelper _singletonInstance;
         private static Object _syncRoot = new Object();
-        private Dictionary<byte[], AppUserEx> dictClients = new Dictionary<byte[], AppUserEx>();
+        private Dictionary<byte[], AppUser> dictClients = new Dictionary<byte[], AppUser>();
 
         UDPClient _client;
         UDPClientFinder _finder;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public List<AppUser> ClientList
+        {
+            get
+            {
+                List<AppUser> retVal = new List<AppUser>();
+                foreach (AppUser user in dictClients.Values)
+                {
+                    retVal.Add(user);
+                }
+                return retVal;
+            }
+        }
 
         public static UDPHelper Instance
         {
@@ -45,7 +67,7 @@ namespace Asclepius.Connectivity
 
         private void _client_OnDataReceived(byte[] dest, byte msgType, byte[] data)
         {
-            AppUserEx destUser = FindClient(dest);
+            AppUser destUser = FindClient(dest);
             if (destUser != null)
             {
                 switch (msgType)
@@ -93,14 +115,17 @@ namespace Asclepius.Connectivity
 
         void _finder_OnClientFound(byte[] clientIP)
         {
-            dictClients.Add(clientIP, new AppUserEx());
+            dictClients.Add(clientIP, new AppUser());
             SendUserData(clientIP);
         }
 
-        private AppUserEx FindClient(byte[] clientIP)
+        private AppUser FindClient(byte[] clientIP)
         {
             if (dictClients.ContainsKey(clientIP)) return dictClients[clientIP];
             else return null;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler OnClientUpdate;
     }
 }

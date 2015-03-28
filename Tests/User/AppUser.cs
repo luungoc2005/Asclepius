@@ -263,6 +263,20 @@ namespace Asclepius.User
             return _retList;
         }
 
+        public List<Record> GetDailyRecord(DateTime _day)
+        {
+            List<Record> _retList = new List<Record>();
+            DateTime _start = new DateTime(_day.Year, _day.Month, _day.Day, 0, 0, 0);
+            for (int i = 0; i < 24; i++)
+            {
+                _start = _start.AddHours(1);
+                Record current = GetHourlyRecord(_start, true);
+                if (current != null) _retList.Add(current);
+            }
+
+            return _retList;
+        }
+
         #endregion
 
         #region "Social"

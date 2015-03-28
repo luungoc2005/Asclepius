@@ -98,13 +98,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Connectivity\AppUserEx.cs" />
     <Compile Include="Connectivity\BluetoothConnection.cs" />
     <Compile Include="Connectivity\ClientsManager.cs" />
     <Compile Include="Connectivity\TCPClient.cs" />
     <Compile Include="Connectivity\UDPClient.cs" />
     <Compile Include="Connectivity\UDPClientFinder.cs" />
     <Compile Include="Connectivity\UDPHelper.cs" />
+    <Compile Include="Converters\BMIToImageConverter.cs" />
     <Compile Include="Converters\BMIToTextConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceToTextConverter.cs" />
@@ -218,7 +218,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="README_FIRST.txt" />
+    <Content Include="Resources\images\back.png" />
+    <Content Include="Resources\images\BMI\bmi1.png" />
+    <Content Include="Resources\images\BMI\bmi2.png" />
+    <Content Include="Resources\images\BMI\bmi3.png" />
+    <Content Include="Resources\images\BMI\bmi4.png" />
+    <Content Include="Resources\images\BMI\bmi5.png" />
     <Content Include="Resources\images\footsteps.png" />
+    <Content Include="Resources\images\next.png" />
     <Content Include="Resources\long run.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />

@@ -58,8 +58,8 @@ namespace Asclepius.Connectivity
         public async void StartFinder()
         {
             socket2 = new DatagramSocket();
-            await socket2.BindEndpointAsync(new HostName(IPAddress.Broadcast.ToString()), finderPort);            
             socket2.MessageReceived += SocketOnMessageReceived;
+            await socket2.BindEndpointAsync(new HostName(IPAddress.Broadcast.ToString()), finderPort);
         }
 
         public void StopFinder()

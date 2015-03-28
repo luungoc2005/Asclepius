@@ -27,7 +27,7 @@ namespace Asclepius
             this.NavigationService.Navigate(new Uri("/NewAccountPage.xaml", UriKind.Relative));
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBox_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (Model.isUpdating) return;
             if (Model.SelectedAccount > -1)

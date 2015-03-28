@@ -16,6 +16,10 @@
             <GradientStop Color="#26FFFFFF" Offset="0"/>
             <GradientStop Color="#19FFFFFF" Offset="1"/>
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="AvatarChromeBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#7FFFFFFF" Offset="1"/>
+            <GradientStop Color="#4CFFFFFF"/>
+        </LinearGradientBrush>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

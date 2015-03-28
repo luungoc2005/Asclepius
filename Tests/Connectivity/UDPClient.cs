@@ -24,8 +24,8 @@ namespace Asclepius.Connectivity
         public async void Start()
         {
             socket2 = new DatagramSocket();
-            await socket2.BindEndpointAsync(new HostName(IPAddress.Any.ToString()), udptPort);
             socket2.MessageReceived += SocketOnMessageReceived;
+            await socket2.BindEndpointAsync(new HostName(IPAddress.Any.ToString()), udptPort);
         }
 
         private async void SocketOnMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
