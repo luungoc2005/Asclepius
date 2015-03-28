@@ -9,11 +9,16 @@ using Windows.Networking.Connectivity;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 
+//TCP Server doesn't work dammit
+
 namespace Asclepius.Connectivity
 {
     class TCPClient
     {
         #region "Common variables"
+
+        public delegate void DataReceivedEvent(byte msgType, byte[] data);
+        public event DataReceivedEvent OnDataReceived;
 
         int intPort = 8019;
         string strHostName = "";
@@ -111,10 +116,12 @@ namespace Asclepius.Connectivity
             }
         }
 
-        public async void SendBytes(byte[] buffer)
+        public async void SendBytes(byte msgType, byte[] buffer)
         {
             if ((_tcpClient != null) && (dataWriter != null))
             {
+                dataWriter.WriteByte(msgType);
+                dataWriter.WriteInt32(buffer.Length);
                 dataWriter.WriteBytes(buffer);
                 try
                 {
@@ -141,26 +148,17 @@ namespace Asclepius.Connectivity
 
                     try
                     {
-                        //MSG type
-                        if (await dataReader.LoadAsync(sizeof(byte)) != sizeof(byte))
-                        {
-                            //Disconnected
-                        }
+                        await dataReader.LoadAsync(sizeof(byte));
+                        byte msgType = dataReader.ReadByte();
 
-                        byte intMsgType = dataReader.ReadByte();
+                        await dataReader.LoadAsync(sizeof(Int32));
+                        int length = dataReader.ReadInt32();
 
-                        //int intLength = MsgCommon.dictMessages[intMsgType];
+                        byte[] bData = new byte[Math.Max(length - 1, 0)];
+                        await dataReader.LoadAsync((uint)length);
+                        dataReader.ReadBytes(bData);
 
-                        byte[] bData = new byte[Math.Max(intLength - 1, 0)];
-
-                        if (intLength > 0)
-                        {
-                            await dataReader.LoadAsync((uint)intLength);
-
-                            dataReader.ReadBytes(bData);
-                        }
-
-                        //OnMessageReceived.Invoke(intMsgType, bData);
+                        if (OnDataReceived != null) OnDataReceived(msgType, bData);
                     }
                     catch (OperationCanceledException)
                     {

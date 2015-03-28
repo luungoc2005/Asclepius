@@ -14,6 +14,7 @@ using Windows.Networking.Proximity;
 using System.Windows;
 using System.IO;
 using System.Windows.Threading;
+using System.Threading;
 
 namespace Asclepius.Connectivity
 {
@@ -133,12 +134,14 @@ namespace Asclepius.Connectivity
 
         #region "Private methods"
 
-        private async void ReceiveMessages(object sender, DoWorkEventArgs e)
+        private void ReceiveMessages(object sender, DoWorkEventArgs e)
         {
             try
             {
                 while (true)
                 {
+                    Thread.Sleep(100);
+
                     if (dataReader != null)
                     {
                         try

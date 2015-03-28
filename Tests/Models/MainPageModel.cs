@@ -187,7 +187,6 @@ namespace Asclepius.Models
         bool _isWalking;
         uint _totalSteps;
         uint _runningSteps;
-        double _Distance;
 
         public bool IsWalking
         {
@@ -212,9 +211,11 @@ namespace Asclepius.Models
             {
                 _totalSteps = value;
                 OnPropertyChanged("TotalSteps");
+                OnPropertyChanged("CaloriesBurned");
                 OnPropertyChanged("Distance");
             }
         }
+
         public uint RunningSteps
         {
             get
@@ -232,10 +233,24 @@ namespace Asclepius.Models
         {
             get
             {
-                return (User.AccountsManager.Instance.CurrentUser.Stride * TotalSteps / 2);
+                return Math.Round((User.AccountsManager.Instance.CurrentUser.StrideLength / 10000) * (TotalSteps / 2), 2);
             }
         }
 
+        public uint WalkTime { get; set; }
+        public uint RunTime { get; set; }
+
+        public double CaloriesBurned
+        {
+            get
+            {
+                double Time = ((double)(WalkTime + RunTime) / 3600);
+                if (Time == 0) return 0;
+                double KPH = Distance / Time;
+                //CB = [0.0215 x KPH3 - 0.1765 x KPH2 + 0.8710 x KPH + 1.4577] x WKG x T
+                return Math.Round((0.0251 * KPH * KPH * KPH - 0.2157 * KPH * KPH + 0.7888 * KPH + 1.2957) * Weight * Time);
+            }
+        }
 
         //[System.ComponentModel.DefaultValue(-1)]
         //public int SelectedDevice { get; set; }

@@ -98,10 +98,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Connectivity\AppUserEx.cs" />
     <Compile Include="Connectivity\BluetoothConnection.cs" />
     <Compile Include="Connectivity\ClientsManager.cs" />
+    <Compile Include="Connectivity\TCPClient.cs" />
     <Compile Include="Connectivity\UDPClient.cs" />
     <Compile Include="Connectivity\UDPClientFinder.cs" />
+    <Compile Include="Connectivity\UDPHelper.cs" />
     <Compile Include="Converters\BMIToTextConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceToTextConverter.cs" />

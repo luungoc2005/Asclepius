@@ -146,7 +146,6 @@ namespace Asclepius.Graph
                     if (_max > 0)
                     {
                         AddTextBlock(yAxisGrid, _max, 0, 0).VerticalAlignment = VerticalAlignment.Top;
-                        //_yCount -= 1;
                     }
                 }
 
@@ -155,19 +154,22 @@ namespace Asclepius.Graph
                 {
                     for (int i = 0; i <= _yCount - 1; i++)
                     {
-                        AddTextBlock(yAxisGrid, yAxisPoints[i], 0, (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight - (FontSize/2));
+                        if (yAxisPoints[i] != _max)
+                        {
+                            AddTextBlock(yAxisGrid, yAxisPoints[i], 0, (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight - (FontSize / 2));
 
-                        //draw horizontal lines
-                        var l = new Line();
-                        l.X1 = 0;
-                        l.X2 = graphGrid.ActualWidth;
-                        l.Y1 = (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight;
-                        l.Y2 = l.Y1;
-                        l.StrokeThickness = 1;
-                        l.Stroke = new SolidColorBrush(Colors.White);
-                        l.StrokeDashArray.Add(3);
-                        l.StrokeDashArray.Add(3);
-                        lineGrid.Children.Add(l);
+                            //draw horizontal lines
+                            var l = new Line();
+                            l.X1 = 0;
+                            l.X2 = graphGrid.ActualWidth;
+                            l.Y1 = (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight;
+                            l.Y2 = l.Y1;
+                            l.StrokeThickness = 1;
+                            l.Stroke = new SolidColorBrush(Colors.White);
+                            l.StrokeDashArray.Add(3);
+                            l.StrokeDashArray.Add(3);
+                            lineGrid.Children.Add(l);
+                        }
                     }
                 }
             }

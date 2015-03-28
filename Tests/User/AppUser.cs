@@ -185,7 +185,7 @@ namespace Asclepius.User
         {
             get
             {
-                if (Stride == 0)
+                if (Stride > 0)
                 {
                     return Stride;
                 }

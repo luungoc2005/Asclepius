@@ -4,6 +4,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Converters="clr-namespace:Asclepius.Converters"
     xmlns:Graph="clr-namespace:Asclepius.Graph"
@@ -84,7 +85,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button Content="Find Devices" Click="Button_Click" />
                                 <Button Content="Connect" Click="Button_Click_1" />
-                                <TextBlock Text="{Binding BytesReceived}" />
+                                <TextBlock Text="{Binding BytesReceived}" Visibility="Collapsed" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Temperature: " />
@@ -94,13 +95,17 @@
                                 <TextBlock Text="Heart rate: " />
                                 <TextBlock Text="{Binding HeartRate}" />
                             </StackPanel>
+                            <Graph:GraphControl x:Name="graphHeart" Height="180" Margin="0,12,0,0" />
+
                         </StackPanel>
                     </Border>
                 </StackPanel>
             </phone:PivotItem>
 
             <phone:PivotItem Header="status">
-                <StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Visible" Height="600">
+                <StackPanel ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <toolkit:ToggleSwitch HorizontalAlignment="Right" Content="Enable Sharing " />                    
                     <TextBlock Text="Today" />
                     <Border Margin="0,12,0,0" BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="0,12" 
 						Background="{StaticResource BlockBackgroundBrush}">
@@ -124,11 +129,11 @@
                                     <TextBlock Text=" km" />
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel Grid.Column="1">
+                            <StackPanel Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
                                 <TextBlock HorizontalAlignment="Center" Text="Running steps" />
                                 <TextBlock HorizontalAlignment="Center" Text="{Binding RunningSteps}" FontSize="30" />
                                 <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" Text="Calories" />
-                                <TextBlock HorizontalAlignment="Center" Text="0" FontSize="30" />
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CaloriesBurned}" FontSize="30" />
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -149,7 +154,7 @@
                             <TextBlock Text="10,000" FontSize="18" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" />
                             <TextBlock Text="Calories" FontSize="18" Grid.Column="0" Grid.Row="1" />
                             <ProgressBar Grid.Row="1" Grid.Column="1" />
-
+                            <TextBlock Text="2,500" FontSize="18" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" />
                         </Grid>
                     </Border>
 
@@ -158,12 +163,17 @@
                         <Graph:GraphControl x:Name="graphSteps" FontSize="12" Height="180" />
                     </Border>
                 </StackPanel>
+                </ScrollViewer>
             </phone:PivotItem>
 
             <!--Pivot item two-->
 
             <phone:PivotItem Header="friends">
-                <Grid/>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <toolkit:ToggleSwitch HorizontalAlignment="Right" Content="Enable Discovery " />
+                    </StackPanel>
+                </StackPanel>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

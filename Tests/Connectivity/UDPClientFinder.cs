@@ -64,6 +64,7 @@ namespace Asclepius.Connectivity
 
         public void StopFinder()
         {
+            if (socket != null) socket.Dispose();
             if (socket2 != null) socket2.Dispose();
         }
 
@@ -76,7 +77,7 @@ namespace Asclepius.Connectivity
         {
             //IP Address to byte()
             string[] strIPTemp = LocalIPAddress().Split('.');
-            if (strIPTemp.Length != 4) throw new Exception("Invalid IP Address");
+            //if (strIPTemp.Length != 4) throw new Exception("Invalid IP Address");
             return Enumerable.Range(0, 5).Select(x =>
                         (x == 0) ? (byte)1 : Convert.ToByte(strIPTemp[x - 1])).ToArray();
         }

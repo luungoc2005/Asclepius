@@ -34,6 +34,12 @@ namespace Asclepius
 
             graphSteps.DrawAxis();
 
+            graphHeart.yAxisPoints.Add(120);
+            graphHeart.yAxisPoints.Add(80);
+            graphHeart.xAxisMaxCount = 30;
+
+            graphHeart.DrawAxis();
+
             _updateTimer = new DispatcherTimer();
             _updateTimer.Interval = TimeSpan.FromSeconds(5);
             _updateTimer.Tick += _updateTimer_Tick;
@@ -104,36 +110,20 @@ namespace Asclepius
             Model.Temperature = Convert.ToDouble(num1);
             Model.HeartRate = Convert.ToDouble(num2);
             Model.BytesReceived += sizeof(float) * 2;
+
+            updateHeartRate(num2);
         }
 
-        //List<byte> _received = new List<byte>();
-        //private void _bluetooth_MessageReceived(byte data)
-        //{
-        //    if (_received.Count == 0)
-        //    {
-        //        _received.Add(data);
-        //    }
-        //    else
-        //    {
-        //        if (_received.Count > 1 && (data == (byte)'T' || data == (byte)'B'))
-        //        {
-        //            string strNum = Encoding.UTF8.GetString(_received.Skip(1).ToArray(), 0, _received.Count - 1);
-        //            if (_received[0] == (byte)'T')
-        //            {
-        //                Model.Temperature = Convert.ToDouble(strNum);
-        //            }
-        //            else
-        //            {
-        //                Model.HeartRate = Convert.ToInt32(strNum);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            _received.Add(data);
-        //        }
-        //    }
-        //    Model.BytesReceived = _received.Count;
-        //}
-
+        List<double> heartRateHistory = new List<double>();
+        private void updateHeartRate(float rate)
+        {
+            if (heartRateHistory != null)
+            {
+                if (heartRateHistory.Count >= 30) heartRateHistory.RemoveAt(0);
+                heartRateHistory.Add(Convert.ToDouble(rate));
+                graphHeart.DataSource = heartRateHistory;
+                graphHeart.DrawGraph();
+            }
+        }
     }
 }

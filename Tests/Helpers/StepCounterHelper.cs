@@ -19,6 +19,11 @@ namespace Asclepius.Helpers
 
         private AccelerometerHelper _accelerometer = AccelerometerHelper.Instance;
 
+        private uint _todayWalkSteps;
+        private uint _todayRunSteps;
+        private uint _todayWalkTime;
+        private uint _todayRunTime;
+
         private StepCounterHelper()
         {
 
@@ -93,6 +98,8 @@ namespace Asclepius.Helpers
                 {
                     mainModel.TotalSteps = _totalSteps;
                     mainModel.RunningSteps = _runningSteps;
+                    mainModel.WalkTime = WalkTime;
+                    mainModel.RunTime = RunTime;
                 }
             });
         }
@@ -151,7 +158,6 @@ namespace Asclepius.Helpers
                         }
                         _weightedAverage = _weightedAverage / 55;
                         
-                        //Deployment.Current.Dispatcher.BeginInvoke(() => { if (mainModel != null) mainModel.Temperature = _weightedAverage; });
                         if (_weightedAverage > _lastAverage && _weightedAverage < 0.95) //hardcoded threshold
                         {
                             OnStepDetected();
@@ -185,6 +191,9 @@ namespace Asclepius.Helpers
                 if (mainModel != null) {
                     mainModel.TotalSteps += 1;
                     if (IsRunning) mainModel.RunningSteps += 1;
+
+                    mainModel.WalkTime = WalkTime;
+                    mainModel.RunTime = RunTime;
                 }
             });
 
@@ -238,6 +247,13 @@ namespace Asclepius.Helpers
             if (IsWalking) { WalkTime += 1; }
             if (IsRunning) { RunTime += 1; }
 
+            //update record
+            var _rec = GetCurrentRecord();
+            if (_rec != null)
+            {
+                if (!IsRunning) _rec.WalkTime += 1;
+                else _rec.RunTime += 1;
+            }
 
             _lastCount = _stepCount;
         }

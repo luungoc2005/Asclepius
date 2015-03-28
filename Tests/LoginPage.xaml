@@ -51,7 +51,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="ASCLEPIUS" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-            <TextBlock Text="login" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="sign in" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" ShowGridLines="True">
@@ -74,8 +74,8 @@
                         <CheckBox Content="Remember my password" IsChecked="{Binding Path=IsRememberPass, Mode=TwoWay}"></CheckBox>
                     </StackPanel>
                 </Border>
-                <Button Content="Login" Click="Button_Click"></Button>
-                <HyperlinkButton Grid.Row="1" Content="Login with a different account" HorizontalAlignment="Left" Width="456" Click="HyperlinkButton_Click_1"/>
+                <Button Content="Sign in" Click="Button_Click"></Button>
+                <HyperlinkButton Grid.Row="1" Content="Sign in with a different account" HorizontalAlignment="Left" Width="456" Click="HyperlinkButton_Click_1"/>
                 <HyperlinkButton Grid.Row="1" Content="Create a new account" Click="HyperlinkButton_Click"/>
             </StackPanel>
         </Grid>
