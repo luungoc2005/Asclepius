@@ -88,16 +88,13 @@ namespace Asclepius.Helpers
                 }
             }
 
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            if (mainModel != null)
             {
-                if (mainModel != null)
-                {
-                    mainModel.TotalSteps = _totalSteps;
-                    mainModel.RunningSteps = _runningSteps;
-                    mainModel.WalkTime = WalkTime;
-                    mainModel.RunTime = RunTime;
-                }
-            });
+                mainModel.TotalSteps = _totalSteps;
+                mainModel.RunningSteps = _runningSteps;
+                mainModel.WalkTime = WalkTime;
+                mainModel.RunTime = RunTime;
+            }
         }
 
         Simple3DVector _last;
@@ -187,7 +184,7 @@ namespace Asclepius.Helpers
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                if (mainModel != null) {                    
+                if (mainModel != null) {       
                     mainModel.TotalSteps = _totalSteps;
                     mainModel.RunningSteps = _runningSteps;
                     mainModel.WalkTime = WalkTime;
