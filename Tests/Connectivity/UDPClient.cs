@@ -19,13 +19,17 @@ namespace Asclepius.Connectivity
         DatagramSocket socket;
         DatagramSocket socket2;
 
-        string udptPort = "8019";
+        string udptPort = "4197";
         
         public async void Start()
         {
-            socket2 = new DatagramSocket();
-            socket2.MessageReceived += SocketOnMessageReceived;
-            await socket2.BindEndpointAsync(new HostName(IPAddress.Any.ToString()), udptPort);
+            try
+            {
+                socket2 = new DatagramSocket();
+                socket2.MessageReceived += SocketOnMessageReceived;
+                await socket2.BindEndpointAsync(new HostName(IPAddress.Any.ToString()), udptPort);
+            }
+            catch { }
         }
 
         private async void SocketOnMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)

@@ -134,42 +134,33 @@ namespace Asclepius.Graph
             double _datamax = (DataSource == null || DataSource.Count == 0) ? 0 : DataSource.Max();
             int _yCount = (yAxisPoints == null ? 0 : yAxisPoints.Count);
 
-            if (_max > 0)
-            {
+            if (_max > 0) {
+                
                 //draw max of data
-                if (_datamax>0 && _datamax==_max)
-                {
-                    AddTextBlock(yAxisGrid, _datamax, 0, 0).VerticalAlignment = VerticalAlignment.Top;
-                }
-                else
-                {
-                    if (_max > 0)
-                    {
-                        AddTextBlock(yAxisGrid, _max, 0, 0).VerticalAlignment = VerticalAlignment.Top;
-                    }
-                }
+                AddTextBlock(yAxisGrid, _max, 0, 0).VerticalAlignment = VerticalAlignment.Top;
+                if (_datamax>0 && _datamax==_max) _yCount-=1;
+            }
 
-                //draw defined points
-                if (_yCount > 0)
+            //draw defined points
+            if (_yCount > 0)
+            {
+                for (int i = 0; i <= _yCount - 1; i++)
                 {
-                    for (int i = 0; i <= _yCount - 1; i++)
+                    if (yAxisPoints[i] != _max)
                     {
-                        if (yAxisPoints[i] != _max)
-                        {
-                            AddTextBlock(yAxisGrid, yAxisPoints[i], 0, (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight - (FontSize / 2));
+                        AddTextBlock(yAxisGrid, yAxisPoints[i], 0, (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight - (FontSize / 2));
 
-                            //draw horizontal lines
-                            var l = new Line();
-                            l.X1 = 0;
-                            l.X2 = graphGrid.ActualWidth;
-                            l.Y1 = (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight;
-                            l.Y2 = l.Y1;
-                            l.StrokeThickness = 1;
-                            l.Stroke = new SolidColorBrush(Colors.White);
-                            l.StrokeDashArray.Add(3);
-                            l.StrokeDashArray.Add(3);
-                            lineGrid.Children.Add(l);
-                        }
+                        //draw horizontal lines
+                        var l = new Line();
+                        l.X1 = 0;
+                        l.X2 = graphGrid.ActualWidth;
+                        l.Y1 = (1 - (double)(yAxisPoints[i] / _max)) * yAxisGrid.ActualHeight;
+                        l.Y2 = l.Y1;
+                        l.StrokeThickness = 1;
+                        l.Stroke = new SolidColorBrush(Colors.White);
+                        l.StrokeDashArray.Add(3);
+                        l.StrokeDashArray.Add(3);
+                        lineGrid.Children.Add(l);
                     }
                 }
             }

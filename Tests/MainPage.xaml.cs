@@ -35,27 +35,24 @@ namespace Asclepius
             graphSteps.yAxisPoints.Add(5000);
             graphSteps.xAxisMaxCount = 24;
 
-            graphSteps.DrawAxis();
-
             graphHeart.yAxisPoints.Add(120);
             graphHeart.yAxisPoints.Add(80);
             graphHeart.xAxisMaxCount = 30;
-
-            graphHeart.DrawAxis();
 
             _updateTimer = new DispatcherTimer();
             _updateTimer.Interval = TimeSpan.FromSeconds(5);
             _updateTimer.Tick += _updateTimer_Tick;
 
-            _updateTimer_Tick(this, new EventArgs());
-
             _udpHelper = UDPHelper.Instance;
             _udpHelper.OnClientUpdate += _udpHelper_OnClientUpdate;
+
+            //_updateTimer_Tick(this, new EventArgs());
+
         }
 
         void _udpHelper_OnClientUpdate(object sender, EventArgs e)
         {
-            listFriends.ItemsSource = _udpHelper.ClientList;
+            listFriends.ItemsSource = _udpHelper.GetClientList();
         }
 
         void _updateTimer_Tick(object sender, EventArgs e)
@@ -65,6 +62,7 @@ namespace Asclepius
                 graphSteps.DataSource = User.AccountsManager.Instance.CurrentUser.GetAccumulatedDailyRecord(DateTime.Now - TimeSpan.FromDays(Model.SelectedDay));
                 graphSteps.DrawGraph();
                 graphSteps.DrawAxis();
+                graphHeart.DrawAxis();
             }
         }
 
@@ -177,13 +175,18 @@ namespace Asclepius
         private async void HyperlinkButton_Click_1(object sender, RoutedEventArgs e)
         {
             await _bluetooth.EnumerateDevices();
+            //var info = _bluetooth.listDevices[0];
+            //_bluetooth.MessageReceived += _bluetooth_MessageReceived;
+            //_bluetooth.Connect(info);
+            //connectBtn.IsEnabled = false;
             foreach (Windows.Devices.Enumeration.DeviceInformation info in _bluetooth.listDevices)
             {
-                if (info.Name == "Meleco")
+                if (info.Name.ToLowerInvariant() == "meleco")
                 {
                     _bluetooth.Connect(info);
                     _bluetooth.MessageReceived += _bluetooth_MessageReceived;
                     connectBtn.IsEnabled = false;
+                    break;
                 }
             }
         }

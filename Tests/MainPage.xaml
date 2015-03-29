@@ -102,14 +102,14 @@
                     <Border BorderBrush="{StaticResource PhoneChromeBrush}" CornerRadius="3" Padding="12" 
 						Background="{StaticResource BlockBackgroundBrush}" Margin="0,12,0,0">
                         <StackPanel>
-                            <ListBox x:Name="lbDevices" Visibility="Collapsed" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedDevice, Mode=TwoWay}" />
+                            <ListBox x:Name="lbDevices" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedDevice, Mode=TwoWay}" Visibility="Collapsed" />
                             <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
                                 <Button Content="Find Devices" Click="Button_Click" />
                                 <Button Content="Connect" Click="Button_Click_1" />
                                 <TextBlock Text="{Binding BytesReceived}" />
                             </StackPanel>
-                            <HyperlinkButton x:Name="connectBtn" Content="Connect to Accessory" Click="HyperlinkButton_Click_1"></HyperlinkButton>
-                            <StackPanel Orientation="Horizontal">
+                            <HyperlinkButton x:Name="connectBtn" Content="Connect to Accessory" Click="HyperlinkButton_Click_1"/>
+                                <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Temperature: " />
                                 <TextBlock Text="{Binding Temperature}" />
                                 <TextBlock Text=" ºC" />

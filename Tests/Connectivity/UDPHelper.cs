@@ -25,17 +25,14 @@ namespace Asclepius.Connectivity
             }
         }
 
-        public List<AppUser> ClientList
+        public List<AppUser> GetClientList()
         {
-            get
+            List<AppUser> retVal = new List<AppUser>();
+            foreach (AppUser user in dictClients.Values)
             {
-                List<AppUser> retVal = new List<AppUser>();
-                foreach (AppUser user in dictClients.Values)
-                {
-                    retVal.Add(user);
-                }
-                return retVal;
+                retVal.Add(user);
             }
+            return retVal;
         }
 
         public static UDPHelper Instance
@@ -62,7 +59,6 @@ namespace Asclepius.Connectivity
             _finder = new UDPClientFinder();
             _finder.OnClientFound += _finder_OnClientFound;
             _client.OnDataReceived += _client_OnDataReceived;
-            _client.Start();
         }
 
         private void _client_OnDataReceived(byte[] dest, byte msgType, byte[] data)
@@ -77,6 +73,7 @@ namespace Asclepius.Connectivity
                         break;
                     case 1:
                         destUser.UserAvatarSerialized = data;
+                        SendUserData(dest);
                         break;
                     default:
                         break;
@@ -108,8 +105,13 @@ namespace Asclepius.Connectivity
                 {
                     _finder.StartFinder();
                     _finder.BroadcastIP();
+                    _client.Start();
                 }
-                else _finder.StopFinder();
+                else
+                {
+                    _finder.StopFinder();
+                    _client.Stop();
+                }
             }
         }
 

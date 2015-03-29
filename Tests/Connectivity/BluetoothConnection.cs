@@ -147,17 +147,14 @@ namespace Asclepius.Connectivity
                         try
                         {
                             //await dataReader.LoadAsync(sizeof(float)*2);
-                            //if (MessageReceived != null)
-                            //{
-                            //    Deployment.Current.Dispatcher.BeginInvoke(() => { MessageReceived((float)dataReader.ReadSingle(), (float)dataReader.ReadSingle()); });
-                            //}
+
                             float num1; float num2;
                             num1 = Convert.ToSingle(dataReader.ReadLine());
                             num2 = Convert.ToSingle(dataReader.ReadLine());
 
                             if (MessageReceived != null)
                             {
-                                MessageReceived.Invoke(num1, num2);
+                                Deployment.Current.Dispatcher.BeginInvoke(() => { MessageReceived(num1,num2); });
                             }
                         }
                         catch { }

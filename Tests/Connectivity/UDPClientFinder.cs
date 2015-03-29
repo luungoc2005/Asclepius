@@ -21,7 +21,7 @@ namespace Asclepius.Connectivity
         DatagramSocket socket2;
 
         private string finderPort = "7194";
-
+        
         public static string LocalIPAddress()
         {
             List<string> ipAddresses = new List<string>();
@@ -57,9 +57,13 @@ namespace Asclepius.Connectivity
 
         public async void StartFinder()
         {
-            socket2 = new DatagramSocket();
-            socket2.MessageReceived += SocketOnMessageReceived;
-            await socket2.BindEndpointAsync(new HostName(IPAddress.Broadcast.ToString()), finderPort);
+            try
+            {
+                socket2 = new DatagramSocket();
+                socket2.MessageReceived += SocketOnMessageReceived;
+                await socket2.BindEndpointAsync(new HostName("255.255.255.255"), finderPort);
+            }
+            catch { }
         }
 
         public void StopFinder()
@@ -70,7 +74,7 @@ namespace Asclepius.Connectivity
 
         public async void BroadcastIP()
         {
-            await SendMessage(IPMessage(), IPAddress.Broadcast.ToString(), finderPort);
+            await SendMessage(IPMessage(), "255.255.255.255", finderPort);
         }
 
         private byte[] IPMessage()

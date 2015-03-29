@@ -23,7 +23,7 @@ namespace Asclepius.Converters
             }
             catch
             {
-                return parameter.ToString();
+                return null;
             }
         }
 
