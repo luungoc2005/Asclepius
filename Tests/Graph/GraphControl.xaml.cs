@@ -78,12 +78,12 @@ namespace Asclepius.Graph
 
         public void DrawGraph()
         {
-            Deployment.Current.Dispatcher.BeginInvoke(() => ExecuteDrawGraph());
+            ExecuteDrawGraph();
         }
 
         public void DrawAxis()
         {
-            Deployment.Current.Dispatcher.BeginInvoke(() => { DrawXAxis(); DrawYAxis(); });
+            DrawXAxis(); DrawYAxis();
         }
 
         private void ExecuteDrawGraph()

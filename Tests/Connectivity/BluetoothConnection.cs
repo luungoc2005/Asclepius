@@ -154,8 +154,11 @@ namespace Asclepius.Connectivity
                             float num1; float num2;
                             num1 = Convert.ToSingle(dataReader.ReadLine());
                             num2 = Convert.ToSingle(dataReader.ReadLine());
-                            
-                            Deployment.Current.Dispatcher.BeginInvoke(() => { MessageReceived(num1, num2); });
+
+                            if (MessageReceived != null)
+                            {
+                                MessageReceived.Invoke(num1, num2);
+                            }
                         }
                         catch { }
                         //ms.WriteByte(dataReader.ReadByte());

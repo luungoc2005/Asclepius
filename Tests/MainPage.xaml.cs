@@ -23,8 +23,9 @@ namespace Asclepius
         {
             InitializeComponent();
             this.DataContext = Model;
-
             //draw steps graph
+
+            ApplicationBar.IsVisible = false;
 
             for (int i = 0; i < 24; i++)
             {
@@ -184,14 +185,6 @@ namespace Asclepius
                     _bluetooth.MessageReceived += _bluetooth_MessageReceived;
                     connectBtn.IsEnabled = false;
                 }
-            }
-
-            if (lbDevices.SelectedIndex >= 0)
-            {
-                MessageBox.Show("Connecting to " + _bluetooth.listDevices[lbDevices.SelectedIndex].Name);
-                _bluetooth.Connect(_bluetooth.listDevices[lbDevices.SelectedIndex]);
-                _bluetooth.MessageReceived += _bluetooth_MessageReceived;
-                //Model.BytesReceived += 1;
             }
         }
     }
